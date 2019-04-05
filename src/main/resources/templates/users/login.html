@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Szama - Logowanie</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div class="simple-login-container">
+    <h2>Logowanie</h2>
+    <form th:action="@{/login}" method="POST">
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <input name="username" type="text" class="form-control" placeholder="Nazwa użytkownika">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <input name="password" type="password" placeholder="Hasło" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <button type="submit" class="btn btn-block btn-login">Zaloguj</button>
+            </div>
+        </div>
+    </form>
+    <p>Nie masz jeszcze konta?</p>
+    <a href="/register">Zarejestruj się!</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Szama</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:if="${#authorization.expression('!isAuthenticated()')}">
+    <a href="/login">Logowanie</a>
+    <a href="/register">Rejestracja</a>
+</div>
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+   <form action="/logout" method="post">
+       <button type="submit" class="btn btn-primary">Wyloguj</button>
+   </form>
+</div>
+
+<h1><a href="/products/">Produkty</a></h1>
+<a href="/products/create">Utwórz</a>
+
+<h1><a href="/meals/">Posiłki</a></h1>
+<a href="/meals/create">Utwórz</a>
+
+</body>
+</html>
