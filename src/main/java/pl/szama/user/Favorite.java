@@ -1,8 +1,8 @@
-package pl.szama.meal;
+package pl.szama.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.szama.user.User;
+import pl.szama.meal.Meal;
 
 import javax.persistence.*;
 

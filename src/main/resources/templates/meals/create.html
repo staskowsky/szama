@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Utwórz posiłek</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+
 </head>
 <body>
+
+<div class="simple-login-container centered margin20">
+    <h2>Dodawanie przepisu</h2>
+    <form th:action="@{/meals/create/new}" th:object="${meal}" method="post">
+        Nazwa:
+        <input th:field="${meal.name}" id="name" class="form-control centered">
+        <button type="submit" class="btn btn-primary margin20">Zatwierdź</button>
+    </form>
+</div>
+
 
 </body>
 </html>

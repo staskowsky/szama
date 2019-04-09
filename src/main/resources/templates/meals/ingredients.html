@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+
 </head>
 <body>
-$END$
+<div class="simple-login-container centered">
+    <h1>Dodawanie <span th:text=" ${meal.name}"></span></h1>
+
+    <h4>Produkty:</h4>
+
+    <div th:each="linkedProduct : ${linkedProduct}">
+        <span th:if="${linkedProduct.meal} == ${meal}" th:text="${linkedProduct.product.name} + ' | ' + ${linkedProduct.amount} + 'g'"></span>
+    </div>
+
+    <form th:action="@{/meals/create/product}" method="post" th:object="${mealProduct}">
+        <input type="hidden" th:value="${meal.id}" name="meal" class="form-control"/>
+        <select th:field="${mealProduct.product}" class="form-control">
+            <option th:value="${product.id}" th:text="${product.name}" th:each="product : ${product}"></option>
+        </select>
+        Masa [g]:
+        <input type="number" th:field="${mealProduct.amount}" name="mealproduct" class="form-control">
+        <button type="submit" class="btn btn-primary margin20">Dodaj produkt</button>
+    </form>
+
+    <form th:action="@{/meals/create/store}" method="post" th:object="${meal}">
+        <h4>Ilość porcji: </h4>
+        <select th:field="${meal.portions}" class="form-control">
+            <option th:value="1">1</option>
+            <option th:value="2">2</option>
+            <option th:value="3">3</option>
+            <option th:value="4">4</option>
+            <option th:value="5">5</option>
+            <option th:value="6">6</option>
+            <option th:value="7">7</option>
+            <option th:value="8">8</option>
+            <option th:value="9">9</option>
+            <option th:value="10">10</option>
+            <option th:value="11">11</option>
+            <option th:value="12">12</option>
+            <option th:value="13">13</option>
+            <option th:value="14">14</option>
+            <option th:value="15">15</option>
+            <option th:value="16">16</option>
+            <option th:value="17">17</option>
+            <option th:value="18">18</option>
+            <option th:value="19">19</option>
+            <option th:value="20">20</option>
+        </select>
+
+        <h4>Przygotowanie:</h4>
+        <input type="hidden" th:value="${meal.id}" name="id" />
+        <input type="hidden" th:value="${meal.name}" name="name" />
+        <textarea th:field="${meal.description}" name="description" class="form-control"></textarea>
+        <button type="submit" class="btn btn-primary margin20">Dodaj przepis</button>
+    </form>
+</div>
 </body>
 </html>

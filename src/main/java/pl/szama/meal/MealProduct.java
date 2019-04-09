@@ -27,10 +27,6 @@ public class MealProduct {
     private Product product;
     @Getter
     @Setter
-    @Column(name="weight")
-    private float weight;
-    @Getter
-    @Setter
     @Column(name="amount")
     private float amount;
 }

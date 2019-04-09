@@ -6,10 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
-<body>
-<div th:if="${#authorization.expression('!isAuthenticated()')}">
-    <a href="/login">Logowanie</a>
-    <a href="/register">Rejestracja</a>
+<body class="margin20 centered">
+
+<div th:if="${#authorization.expression('!isAuthenticated()')}" class="">
+    <a href="/login"><button class="btn btn-primary">Logowanie</button></a>
+    <a href="/register"><button class="btn btn-primary">Rejestracja</button></a>
 </div>
 <div th:if="${#authorization.expression('isAuthenticated()')}">
    <form action="/logout" method="post">
@@ -17,11 +18,14 @@
    </form>
 </div>
 
-<h1><a href="/products/">Produkty</a></h1>
-<a href="/products/create">Utwórz</a>
+<div class="alert alert-success border-success" th:if="${param.logoutSuccessful}">Wylogowano pomyślnie.</div>
 
-<h1><a href="/meals/">Posiłki</a></h1>
-<a href="/meals/create">Utwórz</a>
+
+<h1><a href="/products">Produkty</a></h1>
+<a href="/products/create"><button class="btn btn-link">Nowy produkt</button></a>
+
+<h1><a href="/meals/">Przepisy</a></h1>
+<a href="/meals/create/name"><button class="btn btn-link">Nowy przepis</button></a>
 
 </body>
 </html>

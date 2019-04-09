@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Edytuj produkt</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
+
+<form th:action="@{/products/edit}" th:object="${product}" method="post">
+    <input hidden th:field="${product.id}">
+    <h2>Edycja produktu</h2>
+    Nazwa:
+    <input th:field="${product.name}" id="name" class="form-control">
+    Kategoria:
+    <select th:field="${product.category}" id="category">
+        <option value="VEGETABLE">Warzywa</option>
+        <option value="FRUIT">Owoce</option>
+        <option value="MEAT">Mięso</option>
+        <option value="DAIRY">Nabiał</option>
+        <option value="WHEAT">Zboża i pochodne</option>
+        <option value="EGG">Jaja</option>
+    </select>
+    Kalorie:
+    <input type="number" th:field="${product.kcal}" id="kcal" class="form-control">
+    Białko:
+    <input type="number" th:field="${product.protein}" id="protein" class="form-control">
+    Węglowodany:
+    <input type="number" th:field="${product.carb}" id="carb" class="form-control">
+    Tłuszcz:
+    <input type="number" th:field="${product.fat}" id="fat" class="form-control">
+
+    <button type="submit" class="btn btn-block btn-login">Zatwierdź</button>
+</form>
 
 </body>
 </html>

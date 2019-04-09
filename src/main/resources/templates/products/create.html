@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Utwórz produkt</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
+<div class="simple-login-container centered">
+    <form th:action="@{/products/create}" th:object="${product}" method="post">
+        <form hidden path="id" />
+        <h2>Dodawanie produktu</h2>
+        Nazwa:
+        <input th:field="${product.name}" id="name" class="form-control">
+        Kategoria:
+        <select th:field="${product.category}" id="category" class="form-control">
+            <option value="VEGETABLE">Warzywa</option>
+            <option value="FRUIT">Owoce</option>
+            <option value="MEAT">Mięso</option>
+            <option value="DAIRY">Nabiał</option>
+            <option value="WHEAT">Zboża i pochodne</option>
+            <option value="EGG">Jaja</option>
+        </select>
+        <hr>
+        Kalorie:
+        <input type="number" th:field="${product.kcal}" id="kcal" class="form-control">
+        Białko:
+        <input type="number" th:field="${product.protein}" id="protein" class="form-control">
+        Węglowodany:
+        <input type="number" th:field="${product.carb}" id="carb" class="form-control">
+        Tłuszcz:
+        <input type="number" th:field="${product.fat}" id="fat" class="form-control">
+        <hr>
+        <div class="alert-info border-info">Wartości odżywcze należy podać w przeliczeniu na 100g produktu.</div>
+        <button type="submit" class="btn btn-primary margin20">Zatwierdź</button>
+    </form>
+</div>
 </body>
 </html>

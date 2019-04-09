@@ -6,6 +6,20 @@ body {
   font-size:14px;
   color: black;
 }
+.margin20 {
+  margin: 20px;
+}
+
+.mealsTableRow {
+  margin: 5px;
+  width: Calc(100% - 10px);
+  border: 1px solid dimgray;
+  border-radius: 5px;
+}
+.centered {
+  text-align: center;
+  align-content: center;
+}
 
 /* LOGIN FORM */
 

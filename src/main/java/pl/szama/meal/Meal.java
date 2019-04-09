@@ -1,10 +1,13 @@
 package pl.szama.meal;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "meals")
@@ -21,6 +24,11 @@ public class Meal {
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Getter
+    @Setter
+    @Column(name = "description")
+    private String description;
 
     @Getter
     @Setter
@@ -41,4 +49,14 @@ public class Meal {
     @Setter
     @Column(name = "fat")
     private float fat;
+
+    @Getter
+    @Setter
+    @Column(name="amount")
+    private float amount;
+
+    @Getter
+    @Setter
+    @Column(name = "portions")
+    private Integer portions;
 }
