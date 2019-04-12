@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Szama - Dodawanie przepisu</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
@@ -12,7 +12,6 @@
 <body>
 <div class="simple-login-container centered">
     <h1>Dodawanie <span th:text=" ${meal.name}"></span></h1>
-
     <h4>Produkty:</h4>
 
     <div th:each="linkedProduct : ${linkedProduct}">

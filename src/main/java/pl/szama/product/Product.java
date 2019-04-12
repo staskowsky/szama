@@ -1,5 +1,6 @@
 package pl.szama.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import pl.szama.user.User;
@@ -53,5 +54,6 @@ public class Product {
     @Setter
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "owner", nullable = false)
+    @JsonIgnore
     private User user;
 }

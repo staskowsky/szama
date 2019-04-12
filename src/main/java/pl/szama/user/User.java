@@ -1,5 +1,6 @@
 package pl.szama.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,12 +35,14 @@ public class User {
     @Getter
     @Setter
     @NotNull
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
     @Getter
     @Setter
     @Column(name = "role", nullable = false)
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 }

@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Szama - Edytuj posiłek</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Szama - Edycja przepisu</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
 
+    </head>
+<body>
+<div class="simple-login-container centered">
+
+    <h1>Edycja <span th:text="${meal.name}"></span></h1>
+    <h4>Produkty:</h4>
+
+    <div th:each="linkedProduct : ${linkedProduct}">
+        <span th:if="${linkedProduct.meal} == ${meal}" th:text="${linkedProduct.product.name} + ' | ' + ${linkedProduct.amount} + 'g'"></span>
+        <form method="post" th:action="@{/meals/delete/product/} + ${linkedProduct.id}">
+            <button type="submit" class="btn btn-danger d-inline-block">Usuń</button>
+        </form>
+    </div>
+
+    <form th:action="@{/meals/edit/product/add}" method="post" th:object="${mealProduct}">
+        <input type="hidden" th:value="${meal.id}" name="meal" class="form-control"/>
+        <select th:field="${mealProduct.product}" class="form-control">
+            <option th:value="${product.id}" th:text="${product.name}" th:each="product : ${product}"></option>
+        </select>
+        Masa [g]:
+        <input type="number" th:field="${mealProduct.amount}" name="mealproduct" class="form-control">
+        <button type="submit" class="btn btn-primary margin20">Dodaj produkt</button>
+    </form>
+    <form th:action="@{/meals/create/store}" method="post" th:object="${meal}" >
+        <h4>Ilość porcji: </h4>
+        <select th:field="${meal.portions}" class="form-control">
+            <option th:value="1" th:selected="${meal.portions} == 1 ? true : false">1</option>
+            <option th:value="2" th:selected="${meal.portions} == 2 ? true : false">2</option>
+            <option th:value="3" th:selected="${meal.portions} == 3 ? true : false">3</option>
+            <option th:value="4" th:selected="${meal.portions} == 4 ? true : false">4</option>
+            <option th:value="5" th:selected="${meal.portions} == 5 ? true : false">5</option>
+            <option th:value="6" th:selected="${meal.portions} == 6 ? true : false">6</option>
+            <option th:value="7" th:selected="${meal.portions} == 7 ? true : false">7</option>
+            <option th:value="8" th:selected="${meal.portions} == 8 ? true : false">8</option>
+            <option th:value="9" th:selected="${meal.portions} == 9 ? true : false">9</option>
+            <option th:value="10" th:selected="${meal.portions} == 10 ? true : false">10</option>
+            <option th:value="11" th:selected="${meal.portions} == 11 ? true : false">11</option>
+            <option th:value="12" th:selected="${meal.portions} == 12 ? true : false">12</option>
+            <option th:value="13" th:selected="${meal.portions} == 13 ? true : false">13</option>
+            <option th:value="14" th:selected="${meal.portions} == 14 ? true : false">14</option>
+            <option th:value="15" th:selected="${meal.portions} == 15 ? true : false">15</option>
+            <option th:value="16" th:selected="${meal.portions} == 16 ? true : false">16</option>
+            <option th:value="17" th:selected="${meal.portions} == 17 ? true : false">17</option>
+            <option th:value="18" th:selected="${meal.portions} == 18 ? true : false">18</option>
+            <option th:value="19" th:selected="${meal.portions} == 19 ? true : false">19</option>
+            <option th:value="20" th:selected="${meal.portions} == 20 ? true : false">20</option>
+        </select>
+        <input type="text" th:placeholder="${meal.name}" th:field="${meal.name}" class="form-control" name="name">
+        <h4>Przygotowanie:</h4>
+        <input type="hidden" th:value="${meal.id}" name="id" />
+        <textarea th:field="${meal.description}" th:placeholder="${meal.description}" name="description" class="form-control"></textarea>
+        <button type="submit" class="btn btn-primary margin20">Edytuj przepis</button>
+    </form>
+</div>
 </body>
 </html>
