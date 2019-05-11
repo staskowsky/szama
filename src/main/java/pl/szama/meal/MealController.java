@@ -17,23 +17,23 @@ import java.util.List;
 public class MealController {
 
     private final MealRepository mealRepository;
-    private final MealProductRepository mealProductRepository;
+    private final IngredientRepository ingredientRepository;
     private final ProductRepository productRepository;
 
     @Autowired
-    public MealController(MealRepository mealRepository, MealProductRepository mealProductRepository,
+    public MealController(MealRepository mealRepository, IngredientRepository ingredientRepository,
                           ProductRepository productRepository) {
         this.mealRepository = mealRepository;
-        this.mealProductRepository = mealProductRepository;
+        this.ingredientRepository = ingredientRepository;
         this.productRepository = productRepository;
     }
 
     @GetMapping("")
     public String index(Model model) {
         List<Meal> meals = mealRepository.findAll();
-        List<MealProduct> mealProducts = mealProductRepository.findAll();
+        List<Ingredient> ingredients = ingredientRepository.findAll();
         model.addAttribute("meal", meals);
-        model.addAttribute("mealproduct", mealProducts);
+        model.addAttribute("ingredient", ingredients);
         return "meals/index";
     }
 
@@ -44,25 +44,25 @@ public class MealController {
     }
 
     @PostMapping("/create/new")
-    public String storeMeal(Meal meal, Model model, MealProduct mealProduct) {
+    public String storeMeal(Meal meal, Model model, Ingredient ingredient) {
         mealRepository.save(meal);
         List<Product> products = productRepository.findAll();
-        List<MealProduct> linkedProducts = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         model.addAttribute("meal", meal);
-        model.addAttribute("mealProduct", mealProduct);
+        model.addAttribute("ingredient", ingredient);
         model.addAttribute("linkedProducts", linkedProducts);
         model.addAttribute("product", products);
         return "meals/ingredients";
     }
 
     @PostMapping("/create/product")
-    public String storeProduct(Meal meal, Model model, MealProduct mealProduct) {
-        mealProductRepository.save(mealProduct);
+    public String storeProduct(Meal meal, Model model, Ingredient ingredient) {
+        ingredientRepository.save(ingredient);
         List<Product> products = productRepository.findAll();
-        List<MealProduct> linkedProducts = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         mealRepository.save(meal);
         model.addAttribute("meal", meal);
-        model.addAttribute("mealProduct", mealProduct);
+        model.addAttribute("ingredient", ingredient);
         model.addAttribute("linkedProduct", linkedProducts);
         model.addAttribute("product", products);
         return "meals/ingredients";
@@ -70,7 +70,7 @@ public class MealController {
 
     @PostMapping("/create/store")
     public String finalize(Meal meal) {
-        List<MealProduct> linkedProducts = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         float amount = 0;
         float kcal = 0;
         float protein = 0;
@@ -109,25 +109,25 @@ public class MealController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model, MealProduct mealProduct) {
+    public String edit(@PathVariable("id") Long id, Model model, Ingredient ingredient) {
         Meal meal = mealRepository.getOne(id);
-        List<MealProduct> linkedProduct = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProduct = ingredientRepository.findAllByMeal(meal);
         List<Product> product = productRepository.findAll();
         model.addAttribute("meal", meal);
         model.addAttribute("linkedProduct", linkedProduct);
-        model.addAttribute("mealProduct", mealProduct);
+        model.addAttribute("ingredient", ingredient);
         model.addAttribute("product", product);
         return "meals/edit";
     }
 
     @PostMapping("/edit/product/add")
-    public String addProduct(Model model, MealProduct mealProduct, Meal meal) {
-        mealProduct.setMeal(meal);
-        mealProductRepository.save(mealProduct);
+    public String addProduct(Model model, Ingredient ingredient, Meal meal) {
+        ingredient.setMeal(meal);
+        ingredientRepository.save(ingredient);
         List<Product> products = productRepository.findAll();
-        List<MealProduct> linkedProducts = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         model.addAttribute("meal", meal);
-        model.addAttribute("mealProduct", mealProduct);
+        model.addAttribute("ingredient", ingredient);
         model.addAttribute("linkedProduct", linkedProducts);
         model.addAttribute("product", products);
         return "redirect:/meals/edit/" + meal.getId();
@@ -135,7 +135,7 @@ public class MealController {
 
     @PostMapping("/edit")
     public String update(Meal meal) {
-        List<MealProduct> linkedProducts = mealProductRepository.findAllByMeal(meal);
+        List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         float amount = 0;
         float kcal = 0;
         float protein = 0;
@@ -176,23 +176,23 @@ public class MealController {
     @PostMapping("/delete/{id}")
     public String deleteMeal(@PathVariable("id") Long id) {
         Meal meal = mealRepository.getOne(id);
-        List<MealProduct> mealProducts = mealProductRepository.findAllByMeal(meal);
-        for(int i=0;i<mealProducts.size();i++) {
-            mealProductRepository.delete(mealProducts.get(i));
+        List<Ingredient> ingredients = ingredientRepository.findAllByMeal(meal);
+        for(int i = 0; i< ingredients.size(); i++) {
+            ingredientRepository.delete(ingredients.get(i));
         }
         mealRepository.delete(meal);
         return "redirect:/meals?deleteSuccessful";
     }
 
     @PostMapping("/delete/product/{id}")
-    public String deleteProduct(@PathVariable("id") Long id, Model model, MealProduct mealProduct) {
-        MealProduct mealProductToDelete = mealProductRepository.getOne(id);
-        Meal meal = mealRepository.getOne(mealProductToDelete.getMeal().getId());
-        mealProductRepository.delete(mealProductToDelete);
-        List<MealProduct> linkedProduct = mealProductRepository.findAllByMeal(meal);
+    public String deleteProduct(@PathVariable("id") Long id, Model model, Ingredient ingredient) {
+        Ingredient ingredientToDelete = ingredientRepository.getOne(id);
+        Meal meal = mealRepository.getOne(ingredientToDelete.getMeal().getId());
+        ingredientRepository.delete(ingredientToDelete);
+        List<Ingredient> linkedProduct = ingredientRepository.findAllByMeal(meal);
         model.addAttribute("meal", meal);
         model.addAttribute("linkedProduct", linkedProduct);
-        model.addAttribute("mealProduct", mealProduct);
+        model.addAttribute("ingredient", ingredient);
         return "redirect:/meals/edit/" + meal.getId();
     }
 

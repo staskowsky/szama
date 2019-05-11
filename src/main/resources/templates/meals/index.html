@@ -24,8 +24,8 @@
             <h2 th:text="${meal.name}"></h2>
         </div>
         <div class="col-4 d-inline-block centered">
-            <ul th:each="mealproduct : ${mealproduct}">
-                <li th:if="${mealproduct.meal == meal}" th:text="${mealproduct.amount} + 'g ' + ${mealproduct.product.name}"></li>
+            <ul th:each="ingredient : ${ingredient}">
+                <li th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}"></li>
             </ul>
         </div>
         <div class="col-2 d-inline-block centered">

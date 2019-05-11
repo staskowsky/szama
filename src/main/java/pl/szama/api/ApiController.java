@@ -3,8 +3,8 @@ package pl.szama.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.szama.meal.Meal;
-import pl.szama.meal.MealProduct;
-import pl.szama.meal.MealProductRepository;
+import pl.szama.meal.Ingredient;
+import pl.szama.meal.IngredientRepository;
 import pl.szama.meal.MealRepository;
 import pl.szama.product.Product;
 import pl.szama.product.ProductRepository;
@@ -16,14 +16,14 @@ import java.util.List;
 public class ApiController {
 
     private final MealRepository mealRepository;
-    private final MealProductRepository mealProductRepository;
+    private final IngredientRepository ingredientRepository;
     private final ProductRepository productRepository;
 
     @Autowired
-    public ApiController(MealRepository mealRepository, MealProductRepository mealProductRepository,
-                          ProductRepository productRepository) {
+    public ApiController(MealRepository mealRepository, IngredientRepository ingredientRepository,
+                         ProductRepository productRepository) {
         this.mealRepository = mealRepository;
-        this.mealProductRepository = mealProductRepository;
+        this.ingredientRepository = ingredientRepository;
         this.productRepository = productRepository;
     }
 
@@ -48,7 +48,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/mealproducts/{id}", method = RequestMethod.GET)
-    public List<MealProduct> getMealProductByMealId(@PathVariable("id") Long id) {
-        return mealProductRepository.findAllByMeal(mealRepository.getOne(id));
+    public List<Ingredient> getMealProductByMealId(@PathVariable("id") Long id) {
+        return ingredientRepository.findAllByMeal(mealRepository.getOne(id));
     }
 }

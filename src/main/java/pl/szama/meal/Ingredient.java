@@ -8,8 +8,8 @@ import pl.szama.product.Product;
 import javax.persistence.*;
 
 @Entity
-@Table(name="mealProducts")
-public class MealProduct {
+@Table(name="ingredients")
+public class Ingredient {
     @Getter
     @Setter
     @JsonIgnore

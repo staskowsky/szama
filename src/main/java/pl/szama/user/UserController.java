@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
 
@@ -36,5 +38,12 @@ public class UserController {
         user.setRole(Role.USER);
         userRepository.save(user);
         return "redirect:/login?registerSuccessful";
+    }
+
+    @GetMapping("/settings")
+    public String showSettings(Model model, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "users/settings";
     }
 }

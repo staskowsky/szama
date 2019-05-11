@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/products/**").hasAnyRole("ADMIN", "MOD")
                 .antMatchers("/meals").permitAll()
                 .antMatchers("/meals/**").hasAnyRole("ADMIN", "MOD")
+                .antMatchers("/settings").authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .loginProcessingUrl("/login")

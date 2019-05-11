@@ -23,13 +23,13 @@
         </form>
     </div>
 
-    <form th:action="@{/meals/edit/product/add}" method="post" th:object="${mealProduct}">
+    <form th:action="@{/meals/edit/product/add}" method="post" th:object="${ingredient}">
         <input type="hidden" th:value="${meal.id}" name="meal" class="form-control"/>
-        <select th:field="${mealProduct.product}" class="form-control">
+        <select th:field="${ingredient.product}" class="form-control">
             <option th:value="${product.id}" th:text="${product.name}" th:each="product : ${product}"></option>
         </select>
         Masa [g]:
-        <input type="number" th:field="${mealProduct.amount}" name="mealproduct" class="form-control">
+        <input type="number" th:field="${ingredient.amount}" name="ingredient" class="form-control">
         <button type="submit" class="btn btn-primary margin20">Dodaj produkt</button>
     </form>
     <form th:action="@{/meals/create/store}" method="post" th:object="${meal}" >
