@@ -31,7 +31,7 @@ public class Diet {
 
     @Getter
     @Setter
-    @OneToMany
+    @OneToMany(mappedBy = "diet", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
     @NotNull
-    private List<Day> days;
+    private List<Plan> plans;
 }

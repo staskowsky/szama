@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "day")
-public class Day {
+public class Plan {
     @Id
     @Getter
     @Setter
@@ -18,7 +18,7 @@ public class Day {
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "diet", nullable = false)
     private Diet diet;
 
