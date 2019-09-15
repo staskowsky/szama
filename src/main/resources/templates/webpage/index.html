@@ -4,28 +4,127 @@
     <meta charset="UTF-8">
     <title>Szama</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
-<body class="margin20 centered">
+<body>
 
-<div th:if="${#authorization.expression('!isAuthenticated()')}" class="">
-    <a href="/login"><button class="btn btn-primary">Logowanie</button></a>
-    <a href="/register"><button class="btn btn-primary">Rejestracja</button></a>
+<div class="header nopadding">
+    <div class="headerNavbar centered" id="mainHeader">
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-calendar"></span> &nbsp; Diety
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
+        </div>
+        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
+        </div>
+        <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+        </div>
+    </div>
+    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-calendar"></span> &nbsp; Twoja dieta
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj
+        </div>
+        <div class="headerBtn" onclick="hideExtras()">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
+        </div>
+    </div>
 </div>
-<div th:if="${#authorization.expression('isAuthenticated()')}">
-   <form action="/logout" method="post">
-       <button type="submit" class="btn btn-primary">Wyloguj</button>
-   </form>
+
+<div class="container nopadding">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-12 col-lg-10 content">
+            <div th:if="${#authorization.expression('!isAuthenticated()')}" class="">
+                <a href="/login"><button class="btn btn-primary">Logowanie</button></a>
+                <a href="/register"><button class="btn btn-primary">Rejestracja</button></a>
+            </div>
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+               <form action="/logout" method="post">
+                   <button type="submit" class="btn btn-primary">Wyloguj</button>
+               </form>
+            </div>
+
+            <div class="alert alert-success border-success" th:if="${param.logoutSuccessful}">Wylogowano pomyślnie.</div>
+
+
+            <h1><a href="/products">Produkty</a></h1>
+            <a href="/products/create"><button class="btn btn-link">Nowy produkt</button></a>
+
+            <h1><a href="/meals/">Przepisy</a></h1>
+            <a href="/meals/create/name"><button class="btn btn-link">Nowy przepis</button></a>
+
+            <br>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et augue faucibus, semper risus sed, rutrum sapien. Pellentesque id sollicitudin dui. Sed eget consequat arcu, non pharetra velit. Duis eu dignissim ipsum, in blandit massa. Quisque sed odio sed elit maximus varius consequat eu erat. Cras ac rhoncus dui, sit amet luctus eros. Vivamus nec erat quis ligula blandit congue et non enim. Praesent sed elit mi. Fusce cursus elementum volutpat.
+
+            Duis porttitor tristique tempus. Aliquam congue aliquet sodales. Aenean a porta ex, in faucibus nulla. Maecenas ultricies arcu ac porta accumsan. Donec maximus egestas tincidunt. Nullam semper magna dolor, in efficitur quam laoreet id. Vivamus venenatis ligula mauris. Cras porttitor velit turpis, eget lobortis lectus viverra ac. Suspendisse risus felis, posuere non sollicitudin ut, dignissim non magna. Ut in libero feugiat, consequat quam in, varius neque. Suspendisse at iaculis dolor. Suspendisse potenti. Nulla sed lorem orci.
+
+            Quisque vitae ultricies quam, nec fringilla arcu. Mauris interdum turpis sed purus varius sodales. Quisque ultrices cursus suscipit. Proin ut vehicula ligula, vel bibendum ante. In eu velit eu odio finibus sodales. Praesent tristique euismod dui, eu eleifend eros varius sit amet. In dictum metus sit amet sapien tincidunt maximus. In accumsan, felis non bibendum pretium, diam massa aliquet quam, in viverra ex diam vel leo. Mauris consequat, massa sit amet viverra mattis, ipsum risus consectetur ligula, sit amet convallis neque odio id nunc.
+
+            Vivamus consectetur elementum viverra. Nulla finibus, augue ut maximus aliquam, quam metus lacinia mi, sit amet pulvinar ex dolor ac nisi. Morbi iaculis, nibh ut consequat mattis, eros elit venenatis neque, lacinia aliquet est tellus ut lorem. Nam pretium erat diam, id auctor quam semper ut. Donec sollicitudin congue mi, eget efficitur metus dapibus sed. Nunc id leo ac metus feugiat mattis. Quisque porta imperdiet ex, a ultrices diam tincidunt vel.
+
+            Vestibulum id pulvinar diam, a tincidunt sapien. Aenean consectetur, nisi eu lacinia varius, arcu purus accumsan dolor, eget iaculis ante neque tincidunt dolor. Sed turpis massa, sagittis at tempor nec, porta nec augue. Nam molestie porttitor erat sit amet bibendum. Donec tempor varius purus nec dictum. Vivamus at orci turpis. Proin a laoreet metus. Aliquam elementum erat nec ligula luctus efficitur.
+            <br>
+
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et augue faucibus, semper risus sed, rutrum sapien. Pellentesque id sollicitudin dui. Sed eget consequat arcu, non pharetra velit. Duis eu dignissim ipsum, in blandit massa. Quisque sed odio sed elit maximus varius consequat eu erat. Cras ac rhoncus dui, sit amet luctus eros. Vivamus nec erat quis ligula blandit congue et non enim. Praesent sed elit mi. Fusce cursus elementum volutpat.
+
+            Duis porttitor tristique tempus. Aliquam congue aliquet sodales. Aenean a porta ex, in faucibus nulla. Maecenas ultricies arcu ac porta accumsan. Donec maximus egestas tincidunt. Nullam semper magna dolor, in efficitur quam laoreet id. Vivamus venenatis ligula mauris. Cras porttitor velit turpis, eget lobortis lectus viverra ac. Suspendisse risus felis, posuere non sollicitudin ut, dignissim non magna. Ut in libero feugiat, consequat quam in, varius neque. Suspendisse at iaculis dolor. Suspendisse potenti. Nulla sed lorem orci.
+
+            Quisque vitae ultricies quam, nec fringilla arcu. Mauris interdum turpis sed purus varius sodales. Quisque ultrices cursus suscipit. Proin ut vehicula ligula, vel bibendum ante. In eu velit eu odio finibus sodales. Praesent tristique euismod dui, eu eleifend eros varius sit amet. In dictum metus sit amet sapien tincidunt maximus. In accumsan, felis non bibendum pretium, diam massa aliquet quam, in viverra ex diam vel leo. Mauris consequat, massa sit amet viverra mattis, ipsum risus consectetur ligula, sit amet convallis neque odio id nunc.
+
+            Vivamus consectetur elementum viverra. Nulla finibus, augue ut maximus aliquam, quam metus lacinia mi, sit amet pulvinar ex dolor ac nisi. Morbi iaculis, nibh ut consequat mattis, eros elit venenatis neque, lacinia aliquet est tellus ut lorem. Nam pretium erat diam, id auctor quam semper ut. Donec sollicitudin congue mi, eget efficitur metus dapibus sed. Nunc id leo ac metus feugiat mattis. Quisque porta imperdiet ex, a ultrices diam tincidunt vel.
+
+            Vestibulum id pulvinar diam, a tincidunt sapien. Aenean consectetur, nisi eu lacinia varius, arcu purus accumsan dolor, eget iaculis ante neque tincidunt dolor. Sed turpis massa, sagittis at tempor nec, porta nec augue. Nam molestie porttitor erat sit amet bibendum. Donec tempor varius purus nec dictum. Vivamus at orci turpis. Proin a laoreet metus. Aliquam elementum erat nec ligula luctus efficitur.
+            <br>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et augue faucibus, semper risus sed, rutrum sapien. Pellentesque id sollicitudin dui. Sed eget consequat arcu, non pharetra velit. Duis eu dignissim ipsum, in blandit massa. Quisque sed odio sed elit maximus varius consequat eu erat. Cras ac rhoncus dui, sit amet luctus eros. Vivamus nec erat quis ligula blandit congue et non enim. Praesent sed elit mi. Fusce cursus elementum volutpat.
+
+            Duis porttitor tristique tempus. Aliquam congue aliquet sodales. Aenean a porta ex, in faucibus nulla. Maecenas ultricies arcu ac porta accumsan. Donec maximus egestas tincidunt. Nullam semper magna dolor, in efficitur quam laoreet id. Vivamus venenatis ligula mauris. Cras porttitor velit turpis, eget lobortis lectus viverra ac. Suspendisse risus felis, posuere non sollicitudin ut, dignissim non magna. Ut in libero feugiat, consequat quam in, varius neque. Suspendisse at iaculis dolor. Suspendisse potenti. Nulla sed lorem orci.
+
+            Quisque vitae ultricies quam, nec fringilla arcu. Mauris interdum turpis sed purus varius sodales. Quisque ultrices cursus suscipit. Proin ut vehicula ligula, vel bibendum ante. In eu velit eu odio finibus sodales. Praesent tristique euismod dui, eu eleifend eros varius sit amet. In dictum metus sit amet sapien tincidunt maximus. In accumsan, felis non bibendum pretium, diam massa aliquet quam, in viverra ex diam vel leo. Mauris consequat, massa sit amet viverra mattis, ipsum risus consectetur ligula, sit amet convallis neque odio id nunc.
+
+            Vivamus consectetur elementum viverra. Nulla finibus, augue ut maximus aliquam, quam metus lacinia mi, sit amet pulvinar ex dolor ac nisi. Morbi iaculis, nibh ut consequat mattis, eros elit venenatis neque, lacinia aliquet est tellus ut lorem. Nam pretium erat diam, id auctor quam semper ut. Donec sollicitudin congue mi, eget efficitur metus dapibus sed. Nunc id leo ac metus feugiat mattis. Quisque porta imperdiet ex, a ultrices diam tincidunt vel.
+
+            Vestibulum id pulvinar diam, a tincidunt sapien. Aenean consectetur, nisi eu lacinia varius, arcu purus accumsan dolor, eget iaculis ante neque tincidunt dolor. Sed turpis massa, sagittis at tempor nec, porta nec augue. Nam molestie porttitor erat sit amet bibendum. Donec tempor varius purus nec dictum. Vivamus at orci turpis. Proin a laoreet metus. Aliquam elementum erat nec ligula luctus efficitur.
+            <br>
+
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et augue faucibus, semper risus sed, rutrum sapien. Pellentesque id sollicitudin dui. Sed eget consequat arcu, non pharetra velit. Duis eu dignissim ipsum, in blandit massa. Quisque sed odio sed elit maximus varius consequat eu erat. Cras ac rhoncus dui, sit amet luctus eros. Vivamus nec erat quis ligula blandit congue et non enim. Praesent sed elit mi. Fusce cursus elementum volutpat.
+
+            Duis porttitor tristique tempus. Aliquam congue aliquet sodales. Aenean a porta ex, in faucibus nulla. Maecenas ultricies arcu ac porta accumsan. Donec maximus egestas tincidunt. Nullam semper magna dolor, in efficitur quam laoreet id. Vivamus venenatis ligula mauris. Cras porttitor velit turpis, eget lobortis lectus viverra ac. Suspendisse risus felis, posuere non sollicitudin ut, dignissim non magna. Ut in libero feugiat, consequat quam in, varius neque. Suspendisse at iaculis dolor. Suspendisse potenti. Nulla sed lorem orci.
+
+            Quisque vitae ultricies quam, nec fringilla arcu. Mauris interdum turpis sed purus varius sodales. Quisque ultrices cursus suscipit. Proin ut vehicula ligula, vel bibendum ante. In eu velit eu odio finibus sodales. Praesent tristique euismod dui, eu eleifend eros varius sit amet. In dictum metus sit amet sapien tincidunt maximus. In accumsan, felis non bibendum pretium, diam massa aliquet quam, in viverra ex diam vel leo. Mauris consequat, massa sit amet viverra mattis, ipsum risus consectetur ligula, sit amet convallis neque odio id nunc.
+
+            Vivamus consectetur elementum viverra. Nulla finibus, augue ut maximus aliquam, quam metus lacinia mi, sit amet pulvinar ex dolor ac nisi. Morbi iaculis, nibh ut consequat mattis, eros elit venenatis neque, lacinia aliquet est tellus ut lorem. Nam pretium erat diam, id auctor quam semper ut. Donec sollicitudin congue mi, eget efficitur metus dapibus sed. Nunc id leo ac metus feugiat mattis. Quisque porta imperdiet ex, a ultrices diam tincidunt vel.
+
+            Vestibulum id pulvinar diam, a tincidunt sapien. Aenean consectetur, nisi eu lacinia varius, arcu purus accumsan dolor, eget iaculis ante neque tincidunt dolor. Sed turpis massa, sagittis at tempor nec, porta nec augue. Nam molestie porttitor erat sit amet bibendum. Donec tempor varius purus nec dictum. Vivamus at orci turpis. Proin a laoreet metus. Aliquam elementum erat nec ligula luctus efficitur.
+            <br>
+        </div>
+    </div>
+
 </div>
-
-<div class="alert alert-success border-success" th:if="${param.logoutSuccessful}">Wylogowano pomyślnie.</div>
-
-
-<h1><a href="/products">Produkty</a></h1>
-<a href="/products/create"><button class="btn btn-link">Nowy produkt</button></a>
-
-<h1><a href="/meals/">Przepisy</a></h1>
-<a href="/meals/create/name"><button class="btn btn-link">Nowy przepis</button></a>
-
 </body>
 </html>
