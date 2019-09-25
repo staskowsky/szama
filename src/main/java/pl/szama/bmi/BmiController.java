@@ -1,20 +1,15 @@
-package pl.szama.diet;
+package pl.szama.bmi;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/diets")
-public class DietController {
+@RequestMapping("/bmi")
+public class BmiController {
 
     @GetMapping("/")
     public String index() {
-        return "diets/index";
-    }
-
-    @GetMapping("/create")
-    public String create() {
-        return "diets/create";
+        return "bmi/index";
     }
 }

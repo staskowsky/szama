@@ -13,41 +13,58 @@
 
 <div class="header nopadding">
     <div class="headerNavbar centered" id="mainHeader">
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-calendar"></span> &nbsp; Diety
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
-        </div>
+        <a href="/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+            </div>
+        </a>
+        <a href="/products/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
+            </div>
+        </a>
+        <a href="/meals/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
+            </div>
+        </a>
+        <a href="/diets/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
+            </div>
+        </a>
+        <a href="/bmi/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
+            </div>
+        </a>
         <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
             <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
         </div>
-        <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
-            <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
-        </div>
+        <a href="/login">
+            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+            </div>
+        </a>
     </div>
     <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
+            </div>
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
+            </div>
+        <a href="/settings">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
+            </div>
+        </a>
+        <div class="headerBtn" style="visibility: hidden;">
+        <form action="/logout" method="post">
+            <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
+        </form>
         </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-calendar"></span> &nbsp; Twoja dieta
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
-        </div>
-        <div class="headerBtn">
-            <span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj
-        </div>
+
         <div class="headerBtn" onclick="hideExtras()">
             <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
         </div>
@@ -58,18 +75,6 @@
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-12 col-lg-10 content">
-            <div th:if="${#authorization.expression('!isAuthenticated()')}" class="">
-                <a href="/login"><button class="btn btn-primary">Logowanie</button></a>
-                <a href="/register"><button class="btn btn-primary">Rejestracja</button></a>
-            </div>
-            <div th:if="${#authorization.expression('isAuthenticated()')}">
-               <form action="/logout" method="post">
-                   <button type="submit" class="btn btn-primary">Wyloguj</button>
-               </form>
-            </div>
-
-            <div class="alert alert-success border-success" th:if="${param.logoutSuccessful}">Wylogowano pomyślnie.</div>
-
 
             <h1><a href="/products">Produkty</a></h1>
             <a href="/products/create"><button class="btn btn-link">Nowy produkt</button></a>
