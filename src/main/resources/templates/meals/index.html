@@ -85,10 +85,10 @@
 
             <div class="row">
                 <div th:each="meal : ${meal}" class="card cardWidth margin20">
+                    <img src="https://cdn.pixabay.com/photo/2015/04/08/13/13/pasta-712664_960_720.jpg" class="card-img-top">
                     <div class="card-body">
-                        <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block padding10">
-                            <button type="submit" class="btn btn-link cardTitle" th:text="${meal.name}"></button>
-                        </form>
+                        <h2 th:text="${meal.name}"></h2>
+                        <h4>W porcji:</h4>
                         <div>
                             <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding"></p>
                             <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding"></p>
@@ -96,11 +96,19 @@
                             <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding"></p>
                         </div>
                         <hr>
+                        <h4>Składniki:</h4>
                         <div th:each="ingredient : ${ingredient}">
                             <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text"></p>
                         </div>
+                        <hr>
+                        <form th:action="@{/meals/}" method="get" class="d-inline-block">
+                            <button type="submit" class="btn btn-primary">Zobacz przepis</button>
+                        </form>
+                        <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block">
+                            <button type="submit" class="btn btn-dark">Edytuj</button>
+                        </form>
                         <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block">
-                            <button type="submit" class="btn btn-danger margin20">Usuń</button>
+                            <button type="submit" class="btn btn-danger">Usuń</button>
                         </form>
                     </div>
                 </div>

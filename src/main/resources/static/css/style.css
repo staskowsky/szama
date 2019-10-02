@@ -121,7 +121,7 @@ body {
 }
 
 .cardWidth {
-    width: Calc(33.3% - 40px);
+    width: Calc(25% - 40px);
 }
 
 .centered {
