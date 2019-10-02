@@ -112,6 +112,18 @@ body {
     margin: 20px;
 }
 
+.padding10 {
+    padding: 10px;
+}
+
+.cardTitle {
+    font-size: 24px;
+}
+
+.cardWidth {
+    width: Calc(33.3% - 40px);
+}
+
 .centered {
     text-align: center;
     align-content: center;
