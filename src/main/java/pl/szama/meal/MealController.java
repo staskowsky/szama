@@ -196,4 +196,13 @@ public class MealController {
         return "redirect:/meals/edit/" + meal.getId();
     }
 
+    @GetMapping("/{id}")
+    public String viewMeal(@PathVariable Long id, Model model) {
+        Meal meal = mealRepository.getOne(id);
+        List<Ingredient> ingredients = ingredientRepository.findAllByMeal(meal);
+        model.addAttribute("meal", meal);
+        model.addAttribute("ingredient", ingredients);
+        return "meals/description";
+    }
+
 }

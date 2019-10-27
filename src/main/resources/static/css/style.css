@@ -80,6 +80,11 @@ body {
     background:rgba(150, 150, 150, 0.5);
 }
 
+.invisibleBtn {
+    background: none;
+    border: none;
+}
+
 .container {
     width: 100%;
     display: inline;
@@ -101,6 +106,10 @@ body {
 .mealsTableRow {
     border-top: 1px solid black;
     height: 25px;
+}
+
+.textAreaDescription {
+    height: 200px;
 }
 
 .nopadding {

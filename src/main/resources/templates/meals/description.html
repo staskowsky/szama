@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Szama - Przepisy</title>
+    <title th:text="@{Szama -&nbsp;} + ${meal.name}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -74,45 +74,35 @@
 <div class="container nopadding">
     <div class="row">
         <div class="col-lg-1"></div>
-        <div class="col-12 col-lg-10 content">
-            <div class="alert alert-success border-success" th:if="${param.addingSuccessful}">Dodano przepis.</div>
-            <div class="alert alert-light border-light" th:if="${param.editSuccessful}">Edytowano przepis.</div>
-            <div class="alert alert-danger border-danger" th:if="${param.deleteSuccessful}">Usunięto przepis.</div>
-
-            <div class="centered">
-                <a href="/meals/create/name"><button class="btn btn-success">Nowy przepis</button></a>
-            </div>
-
-            <div class="row">
-                <div th:each="meal : ${meal}" class="card cardWidth margin20">
-                    <img src="https://cdn.pixabay.com/photo/2015/04/08/13/13/pasta-712664_960_720.jpg" class="card-img-top">
-                    <div class="card-body">
-                        <h2 th:text="${meal.name}"></h2>
-                        <h4>W porcji:</h4>
-                        <div>
-                            <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding"></p>
-                            <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding"></p>
-                            <p th:text=" 'Węglowodany: ' + ${meal.carb} + 'g' " class="nopadding"></p>
-                            <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding"></p>
-                        </div>
-                        <hr>
-                        <h4>Składniki:</h4>
-                        <div th:each="ingredient : ${ingredient}">
-                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text"></p>
-                        </div>
-                        <hr>
-                        <form th:action="@{/meals/} + ${meal.id}" method="get" class="d-inline-block">
-                            <button type="submit" class="btn btn-primary">Zobacz przepis</button>
-                        </form>
-                        <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block">
-                            <button type="submit" class="btn btn-dark">Edytuj</button>
-                        </form>
-                        <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block">
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Na pewno chcesz usunąć ten przepis?');">Usuń</button>
-                        </form>
+        <div class="col-lg-10 content row">
+            <h1 th:text="${meal.name}" class="col-12 centered"></h1>
+            <div class="col-12 row">
+                <div class="col-4">
+                    <img src="https://cdn.pixabay.com/photo/2015/04/08/13/13/pasta-712664_960_720.jpg" class="w-100">
+                </div>
+                <div class="col-4 padding10">
+                    <h3>Składniki:</h3>
+                    <div th:each="ingredient : ${ingredient}">
+                        <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text"></p>
                     </div>
                 </div>
+
+                <div class="col-4 padding10">
+                    <h3>Wartości odżywcze w porcji:</h3>
+                    <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding"></p>
+                    <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding"></p>
+                    <p th:text=" 'Węglowodany: ' + ${meal.carb} + 'g' " class="nopadding"></p>
+                    <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding"></p>
+                </div>
             </div>
+            <div class="col-12 row">
+                <div class="col-1">&nbsp;</div>
+                <div class="col-10 padding10">
+                    <h3>Przygotowanie: </h3>
+                    <p th:text="${meal.description}" class="margin20"></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

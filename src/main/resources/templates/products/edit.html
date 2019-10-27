@@ -104,7 +104,7 @@
                     <button type="submit" class="btn btn-block btn-login" style="margin-top: 20px;">Zatwierdź</button>
                 </form>
                 <form th:action="@{/products/delete/} + ${product.id}" method="post">
-                    <button type="submit" class="btn btn-danger btn-block" style="margin-top: 20px;">Usuń produkt</button>
+                    <button type="submit" class="btn btn-danger btn-block" style="margin-top: 20px;" onclick="return confirm('Na pewno chcesz usunąć ten produkt?');">Usuń produkt</button>
                 </form>
             </div>
         </div>

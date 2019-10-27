@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.szama.meal.IngredientRepository;
+import pl.szama.meal.MealRepository;
 import pl.szama.user.User;
 import pl.szama.user.UserRepository;
 
@@ -16,12 +18,14 @@ public class ProductController {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final IngredientRepository ingredientRepository;
 
 
     @Autowired
-    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
+    public ProductController(ProductRepository productRepository, UserRepository userRepository, IngredientRepository ingredientRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @GetMapping("")
@@ -62,7 +66,11 @@ public class ProductController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         Product product = productRepository.getOne(id);
-        productRepository.delete(product);
-        return "redirect:/products?deleteSuccessful";
+        if(ingredientRepository.findAllByProduct(product).isEmpty()) {
+            productRepository.delete(product);
+            return "redirect:/products?deleteSuccessful";
+        } else {
+            return "redirect:/products?deleteUnsuccessful";
+        }
     }
 }

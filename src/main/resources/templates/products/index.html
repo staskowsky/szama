@@ -81,6 +81,7 @@
             <div class="alert alert-success border-success col-4 offset-4 centered" th:if="${param.addingSuccessful}">Dodano produkt.</div>
             <div class="alert alert-secondary border-secondary col-4 offset-4 centered" th:if="${param.editSuccessful}">Edytowano produkt.</div>
             <div class="alert alert-danger border-danger col-4 offset-4 centered" th:if="${param.deleteSuccessful}">Usunięto produkt.</div>
+            <div class="alert alert-danger border-danger col-4 offset-4 centered" th:if="${param.deleteUnsuccessful}">Nie można usunąć produktu - jest wykorzystywany w przepisie!</div>
             <div class="col-lg-1"></div>
             <div class="col-lg-10 prodTable nopadding">
                 <div class="prodTableTop nopadding row">
