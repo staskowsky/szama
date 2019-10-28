@@ -112,6 +112,10 @@ body {
     height: 200px;
 }
 
+.gray {
+    color: dimgray;
+}
+
 .nopadding {
     margin: 0;
     padding: 0;

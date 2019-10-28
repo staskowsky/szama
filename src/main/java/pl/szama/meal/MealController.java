@@ -50,7 +50,7 @@ public class MealController {
         List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
         model.addAttribute("meal", meal);
         model.addAttribute("ingredient", ingredient);
-        model.addAttribute("linkedProducts", linkedProducts);
+        model.addAttribute("linkedProduct", linkedProducts);
         model.addAttribute("product", products);
         return "meals/ingredients";
     }
@@ -71,6 +71,7 @@ public class MealController {
     @PostMapping("/create/store")
     public String finalize(Meal meal) {
         List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
+        String name = meal.getName();
         float amount = 0;
         float kcal = 0;
         float protein = 0;
@@ -99,6 +100,7 @@ public class MealController {
             productValue = productValue * ((linkedProducts.get(i).getAmount())/(100*meal.getPortions()));
             fat = fat + productValue;
         }
+        meal.setName(name);
         meal.setAmount(amount);
         meal.setKcal(kcal);
         meal.setProtein(protein);

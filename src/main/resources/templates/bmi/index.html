@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Kalkulator BMI</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-tutaj liczymy bmi
+
+<div class="header nopadding">
+    <div class="headerNavbar centered" id="mainHeader">
+        <a href="/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+            </div>
+        </a>
+        <a href="/products/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
+            </div>
+        </a>
+        <a href="/meals/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
+            </div>
+        </a>
+        <a href="/diets/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
+            </div>
+        </a>
+        <a href="/bmi/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
+            </div>
+        </a>
+        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
+        </div>
+        <a href="/login">
+            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+            </div>
+        </a>
+    </div>
+    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
+        </div>
+        <a href="/settings">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
+            </div>
+        </a>
+        <div class="headerBtn" style="visibility: hidden;">
+            <form action="/logout" method="post">
+                <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
+            </form>
+        </div>
+
+        <div class="headerBtn" onclick="hideExtras()">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
+        </div>
+    </div>
+</div>
+
+<div class="container nopadding">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-12 col-lg-10 content row">
+            <div class="w-50">
+                <div class="simple-login-container w-75">
+                    <h1 class="centered">Kalkulator BMI</h1>
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Wzrost:</h4>
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="text" th:field="${bmi.height}" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Masa:</h4>
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="text" th:field="${bmi.mass}" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-login">Oblicz</button>
+                </div>
+
+            </div>
+            <div class="w-50">
+                <div class="simple-login-container w-75">
+                    <h1 class="centered">Twój wynik</h1>
+                    <h4>Masa:</h4>
+                    <h4>Wzrost:</h4>
+                    <h4>BMI:</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

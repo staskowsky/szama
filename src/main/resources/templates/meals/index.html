@@ -90,15 +90,15 @@
                         <h2 th:text="${meal.name}"></h2>
                         <h4>W porcji:</h4>
                         <div>
-                            <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding"></p>
-                            <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding"></p>
-                            <p th:text=" 'Węglowodany: ' + ${meal.carb} + 'g' " class="nopadding"></p>
-                            <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding"></p>
+                            <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding gray"></p>
+                            <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding gray"></p>
+                            <p th:text=" 'Węglowodany: ' + ${meal.carb} + 'g' " class="nopadding gray"></p>
+                            <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding gray"></p>
                         </div>
                         <hr>
                         <h4>Składniki:</h4>
                         <div th:each="ingredient : ${ingredient}">
-                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text"></p>
+                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text gray"></p>
                         </div>
                         <hr>
                         <form th:action="@{/meals/} + ${meal.id}" method="get" class="d-inline-block">
