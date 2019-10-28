@@ -18,7 +18,8 @@ public class BmiController {
 
     @PostMapping("/result")
     public String result(Bmi bmi, Model model) {
+        bmi.bmi = bmi.mass/((bmi.height*bmi.height)/10000);
         model.addAttribute("bmi", bmi);
-        return "bmi/index";
+        return "bmi/result";
     }
 }

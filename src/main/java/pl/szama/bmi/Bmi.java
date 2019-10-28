@@ -6,11 +6,11 @@ import lombok.Setter;
 public class Bmi {
     @Getter
     @Setter
-    public int mass;
+    public float mass;
 
     @Getter
     @Setter
-    public int height;
+    public float height;
 
     @Getter
     @Setter

@@ -78,30 +78,23 @@
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="simple-login-container w-75">
-                    <h1 class="centered">Kalkulator BMI</h1>
-                    <form th:action="@{/bmi/result}" th:object="${bmi}" method="post">
-                    <div class="row">
-                        <div class="col-6">
-                            <h4>Wzrost [cm]:</h4>
-                        </div>
-                        <div class="col-6 form-group">
-                            <input type="text" th:field="${bmi.height}" id="height" placeholder="Podaj wartość całkowitą" class="form-control" required/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <h4>Masa [kg]:</h4>
-                        </div>
-                        <div class="col-6 form-group">
-                            <input type="text" th:field="${bmi.mass}" id="mass" placeholder="Podaj wartość całkowitą" class="form-control" required/>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-block btn-login">Oblicz</button>
-                    </form>
+                    <h1 class="centered">Twój wynik</h1>
+                    <div class="row"> <p class="font-weight-bold">Masa:&nbsp;</p> <p th:text="${bmi.mass} + 'kg'"></p> </div>
+                    <div class="row"> <p class="font-weight-bold">Wzrost:&nbsp;</p> <p th:text="${bmi.height} + 'cm'"></p> </div>
+                    <div class="row"> <p class="font-weight-bold">BMI:&nbsp;</p> <p th:text="${bmi.bmi}"></p> </div>
+                    <p th:if="${bmi.bmi}<16">Wygłodzenie</p>
+                    <p th:if="${bmi.bmi}<17 and ${bmi.bmi}>=16 ">Wychudzenie</p>
+                    <p th:if="${bmi.bmi}<18.5 and ${bmi.bmi}>=17 ">Niedowaga</p>
+                    <p th:if="${bmi.bmi}<25 and ${bmi.bmi}>=18.5 ">Wartość prawidłowa</p>
+                    <p th:if="${bmi.bmi}<30 and ${bmi.bmi}>=25 ">Nadwaga</p>
+                    <p th:if="${bmi.bmi}<35 and ${bmi.bmi}>=30 ">I stopień otyłości</p>
+                    <p th:if="${bmi.bmi}<40 and ${bmi.bmi}>=35 ">II stopień otyłości</p>
+                    <p th:if="${bmi.bmi}>=40">Otyłość skrajna</p>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>
