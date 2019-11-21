@@ -3,6 +3,7 @@ package pl.szama.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import pl.szama.metabolism.Metabolism;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -45,4 +46,10 @@ public class User {
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Getter
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "metabolism")
+    private Metabolism metabolism;
 }

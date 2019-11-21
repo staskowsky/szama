@@ -33,7 +33,7 @@
                 <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
             </div>
         </a>
-        <a href="/bmi/">
+        <a href="/metabolism/">
             <div class="headerBtn">
                 <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
             </div>
@@ -77,24 +77,49 @@
         <div class="col-12 col-lg-10 content row">
             <div class="col-3"></div>
             <div class="col-6">
+                <div class="alert alert-success border-success col-4 offset-4 centered margintop20" th:if="${param.resultSaved}">Przypisano dane do konta.</div>
                 <div class="simple-login-container w-75">
-                    <h1 class="centered">Twój wynik</h1>
-                    <div class="row"> <p class="font-weight-bold">Masa:&nbsp;</p> <p th:text="${bmi.mass} + 'kg'"></p> </div>
-                    <div class="row"> <p class="font-weight-bold">Wzrost:&nbsp;</p> <p th:text="${bmi.height} + 'cm'"></p> </div>
-                    <div class="row"> <p class="font-weight-bold">BMI:&nbsp;</p> <p th:text="${bmi.bmi}"></p> </div>
-                    <p th:if="${bmi.bmi}<16">Wygłodzenie</p>
-                    <p th:if="${bmi.bmi}<17 and ${bmi.bmi}>=16 ">Wychudzenie</p>
-                    <p th:if="${bmi.bmi}<18.5 and ${bmi.bmi}>=17 ">Niedowaga</p>
-                    <p th:if="${bmi.bmi}<25 and ${bmi.bmi}>=18.5 ">Wartość prawidłowa</p>
-                    <p th:if="${bmi.bmi}<30 and ${bmi.bmi}>=25 ">Nadwaga</p>
-                    <p th:if="${bmi.bmi}<35 and ${bmi.bmi}>=30 ">I stopień otyłości</p>
-                    <p th:if="${bmi.bmi}<40 and ${bmi.bmi}>=35 ">II stopień otyłości</p>
-                    <p th:if="${bmi.bmi}>=40">Otyłość skrajna</p>
+                    <h1 class="centered">Kalkulator kaloryczny</h1>
+                    <form th:action="@{/metabolism/result}" th:object="${metabolism}" method="post">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Wzrost [cm]:</h4>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text" th:field="${metabolism.height}" id="height" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Masa [kg]:</h4>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text" th:field="${metabolism.mass}" id="mass" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Wiek:</h4>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text" th:field="${metabolism.age}" id="age" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                            </div>
+                        </div>
+                        <h4>Płeć:</h4>
+                        <input type="radio" name="sex" value="1" checked> Mężczyzna<br>
+                        <input type="radio" name="sex" value="0"> Kobieta
+                        <h4>Poziom aktywności: </h4>
+                        <input type="radio" name="activityLevel" value="1.2"> Brak<br>
+                        <input type="radio" name="activityLevel" value="1.4"> Niska<br>
+                        <input type="radio" name="activityLevel" value="1.6" checked> Średnia<br>
+                        <input type="radio" name="activityLevel" value="1.8"> Wysoka<br>
+                        <input type="radio" name="activityLevel" value="2"> Bardzo wysoka<br><br><br>
+                        <button type="submit" class="btn btn-block btn-login">Oblicz</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
