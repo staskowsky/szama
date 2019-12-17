@@ -83,7 +83,7 @@
                 <div class="col-4 padding10">
                     <h3>Składniki:</h3>
                     <div th:each="ingredient : ${ingredient}">
-                        <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="card-text gray"></p>
+                        <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name} + '(' + ${ingredient.volume} + ')'" class="card-text gray"></p>
                     </div>
                 </div>
 

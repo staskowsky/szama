@@ -20,18 +20,24 @@ public class Diet {
 
     @Getter
     @Setter
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user", nullable = false)
     private User user;
 
     @Getter
     @Setter
-    @Column(name = "caloricity")
-    private float caloricity;
+    @OneToMany(mappedBy = "diet", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    @NotNull
+    @OrderColumn
+    private Day[] days;
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "diet", cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-    @NotNull
-    private List<Plan> plans;
+    @Column
+    private float minCaloricity;
+
+    @Getter
+    @Setter
+    @Column
+    private float maxCaloricity;
 }

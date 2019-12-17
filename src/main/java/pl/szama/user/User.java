@@ -3,6 +3,7 @@ package pl.szama.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import pl.szama.diet.Diet;
 import pl.szama.metabolism.Metabolism;
 
 import javax.persistence.*;
@@ -52,4 +53,10 @@ public class User {
     @OneToOne
     @JoinColumn(name = "metabolism")
     private Metabolism metabolism;
+
+    @Getter
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "diet")
+    private Diet diet;
 }

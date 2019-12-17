@@ -135,6 +135,12 @@
                     </select>
                     <h4>Masa [g]:</h4>
                     <input type="number" th:field="${ingredient.amount}" name="ingredient" class="form-control">
+                    <h4>Objętość (opcjonalnie):
+                        <span data-toggle="tooltip" data-placement="top" title="W tej sekcji możemy w przybliżeniu określić objętość produktu (np. 1/2 szklanki, trzy łyżki, dwie puszki).">
+                            <span class="glyphicon glyphicon-question-sign gray"></span>
+                        </span>
+                    </h4>
+                    <input type="text" th:field="${ingredient.volume}" name="volume" class="form-control">
                     <button type="submit" class="btn btn-primary margin20">Dodaj produkt</button>
                 </form>
             </div>

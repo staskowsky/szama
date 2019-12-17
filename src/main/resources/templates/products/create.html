@@ -88,17 +88,21 @@
                         <option value="MEAT">Mięso</option>
                         <option value="DAIRY">Nabiał</option>
                         <option value="WHEAT">Zboża i pochodne</option>
+                        <option value="BREAD">Pieczywo</option>
+                        <option value="PROCESSED">Żywność przetworzona</option>
+                        <option value="SPICES">Przyprawy</option>
                         <option value="EGG">Jaja</option>
+                        <option value="OTHER">Inne</option>
                     </select>
                     <hr>
                     Kalorie:
-                    <input type="number" th:field="${product.kcal}" id="kcal" class="form-control">
+                    <input type="text" th:field="${product.kcal}" id="kcal" class="form-control">
                     Białko:
-                    <input type="number" th:field="${product.protein}" id="protein" class="form-control">
-                    Węglowodany:
-                    <input type="number" th:field="${product.carb}" id="carb" class="form-control">
+                    <input type="text" th:field="${product.protein}" id="protein" class="form-control">
                     Tłuszcz:
-                    <input type="number" th:field="${product.fat}" id="fat" class="form-control">
+                    <input type="text" th:field="${product.fat}" id="fat" class="form-control">
+                    Węglowodany:
+                    <input type="text" th:field="${product.carb}" id="carb" class="form-control">
                     <hr>
                     <div class="alert-info border-info padding10">Wartości odżywcze należy podać w przeliczeniu na 100g produktu.</div>
                     <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Zatwierdź</button>

@@ -32,4 +32,8 @@ public class Ingredient {
     @Setter
     @Column(name="amount")
     private float amount;
+    @Getter
+    @Setter
+    @Column(name="volume")
+    private String volume;
 }

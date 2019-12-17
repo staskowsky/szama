@@ -9,7 +9,12 @@ public enum Category {
     MEAT("Mięso"),
     DAIRY("Nabiał"),
     WHEAT("Produkty zbożowe"),
-    EGG("Jaja");
+    BREAD("Pieczywo"),
+    PROCESSED("Żywność przetworzona"),
+    SPICES("Przyprawy"),
+    EGG("Jaja"),
+    OTHER("Inne");
+
 
     @Getter
     @Setter

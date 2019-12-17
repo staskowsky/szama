@@ -92,8 +92,8 @@
                     <div class="col-6 centered" style="border-right: 1px solid black;">&nbsp;</div>
                     <div class="col row centered">
                         <div class="col-3 centered" style="background: brown">Kalorie</div>
-                        <div class="col-3 centered" style="border-left: 1px solid black; background: yellow">Tłuszcz</div>
-                        <div class="col-3 centered" style="border-left: 1px solid black; background: seagreen">Białko</div>
+                        <div class="col-3 centered" style="border-left: 1px solid black; background: yellow">Białko</div>
+                        <div class="col-3 centered" style="border-left: 1px solid black; background: seagreen">Tłuszcz</div>
                         <div class="col-3 centered" style="border-left: 1px solid black; background: deepskyblue">Węglowodany</div>
                     </div>
                 </div>
@@ -111,10 +111,10 @@
                             <p th:text="${product.protein} + 'g' "></p>
                         </div>
                         <div class="col-3 centered" style="border-left: 1px solid black; background: lightgreen; height: 24px;">
-                            <p th:text="${product.carb} + 'g' "></p>
+                            <p th:text="${product.fat} + 'g' "></p>
                         </div>
                         <div class="col-3 centered" style="border-left: 1px solid black; background: lightblue; height: 24px;">
-                            <p th:text="${product.fat} + 'g' "></p>
+                            <p th:text="${product.carb} + 'g' "></p>
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,248 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:span="http://www.w3.org/1999/xhtml">
 <head>
-    <head>
-        <meta charset="UTF-8">
-        <title>Szama - Twoja dieta</title>
-        <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-        <link rel="stylesheet" th:href="@{/css/style.css}"/>
-        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
-        <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
-    </head>
+    <meta charset="UTF-8">
+    <title>Szama - Twoja dieta</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
+<div class="header nopadding">
+    <div class="headerNavbar centered" id="mainHeader">
+        <a href="/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+            </div>
+        </a>
+        <a href="/products/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
+            </div>
+        </a>
+        <a href="/meals/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
+            </div>
+        </a>
+        <a href="/diets/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
+            </div>
+        </a>
+        <a href="/metabolism/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
+            </div>
+        </a>
+        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
+        </div>
+        <a href="/login">
+            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+            </div>
+        </a>
+    </div>
+    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
+        </div>
+        <a href="/settings">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
+            </div>
+        </a>
+        <div class="headerBtn" style="visibility: hidden;">
+            <form action="/logout" method="post">
+                <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
+            </form>
+        </div>
+
+        <div class="headerBtn" onclick="hideExtras()">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
+        </div>
+    </div>
+</div>
+
+<div class="container nopadding">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-12 col-lg-10 content row">
+            <h1>Dieta</h1>
+            <div th:unless="${user.diet==null}" class="col-12 prodTable">
+                <div class="row prodTableTop borderbtm font-weight-bold">
+                    <div class="col-2 padding10">
+                        Dzień tygodnia
+                    </div>
+                    <div class="col-2 padding10">
+                        Śniadanie
+                    </div>
+                    <div class="col-2 padding10">
+                        Lunch
+                    </div>
+                    <div class="col-2 padding10">
+                        Obiad
+                    </div>
+                    <div class="col-2 padding10">
+                        Kolacja
+                    </div>
+                    <div class="col-2 padding10">
+                        Suma
+                    </div>
+                </div>
+                <div class="row borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Poniedziałek
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[0].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[0].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[0].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[0].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[0].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row mint borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Wtorek
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[1].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[1].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[1].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[1].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[1].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Środa
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[2].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[2].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[2].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[2].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[2].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row mint borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Czwartek
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[3].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[3].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[3].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[3].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[3].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Piątek
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[4].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[4].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[4].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[4].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[4].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row mint borderbtm transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Sobota
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[5].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[5].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[5].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[5].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[5].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+                <div class="row transparentMintHighlight">
+                    <div class="col-2 padding10 dayname">
+                        Niedziela
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[6].mealPointers[0].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[6].mealPointers[1].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[6].mealPointers[2].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[6].mealPointers[3].meal.name}"></p>
+                    </div>
+                    <div class="col-2 padding10">
+                        <p th:text="${user.diet.days[6].caloricity} + 'kcal'"></p>
+                    </div>
+                </div>
+            </div>
+            <form th:action="@{/diets/generate/hold/auto}" method="post">
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Generuj</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

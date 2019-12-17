@@ -2,13 +2,13 @@ package pl.szama.diet;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.szama.meal.Meal;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "day")
-public class Plan {
+public class Day {
     @Id
     @Getter
     @Setter
@@ -24,22 +24,12 @@ public class Plan {
 
     @Getter
     @Setter
-    @OneToOne
-    private Meal breakfast;
+    @OneToMany(mappedBy = "day", cascade = {CascadeType.ALL})
+    @OrderColumn
+    private MealPointer[] mealPointers;
 
     @Getter
     @Setter
-    @OneToOne
-    private Meal snack;
-
-    @Getter
-    @Setter
-    @OneToOne
-    private Meal lunch;
-
-    @Getter
-    @Setter
-    @OneToOne
-    private Meal supper;
-
+    @Column
+    private float caloricity;
 }

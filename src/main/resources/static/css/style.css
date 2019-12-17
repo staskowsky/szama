@@ -112,8 +112,18 @@ body {
     height: 200px;
 }
 
+.mint {
+    background: #98ff98;
+}
+
 .gray {
     color: dimgray;
+}
+
+.dayname {
+    font-weight: bold;
+    background: gray;
+    border-right: 1px solid black;
 }
 
 .nopadding {
@@ -144,6 +154,14 @@ body {
 .centered {
     text-align: center;
     align-content: center;
+}
+
+.borderbtm {
+    border-bottom: 1px solid black;
+}
+
+.transparentMintHighlight:hover {
+    background: rgba(0,255,0,0.2);
 }
 
 /* LOGIN FORM */

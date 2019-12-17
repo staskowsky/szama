@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.szama.diet.DietRepository;
 import pl.szama.meal.IngredientRepository;
 import pl.szama.meal.MealRepository;
 import pl.szama.user.User;
@@ -19,13 +20,15 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final IngredientRepository ingredientRepository;
+    private final DietRepository dietRepository;
 
 
     @Autowired
-    public ProductController(ProductRepository productRepository, UserRepository userRepository, IngredientRepository ingredientRepository) {
+    public ProductController(ProductRepository productRepository, UserRepository userRepository, IngredientRepository ingredientRepository, DietRepository dietRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.ingredientRepository = ingredientRepository;
+        this.dietRepository = dietRepository;
     }
 
     @GetMapping("")
