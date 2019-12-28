@@ -238,11 +238,12 @@
                     </div>
                 </div>
             </div>
-            <form th:action="@{/diets/generate/hold/auto}" method="post">
-                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">Generuj</button>
-            </form>
         </div>
     </div>
+
+    <form th:action="@{/diets/create}" method="get">
+        <button type="submit" class="btn btn-primary btn-block generateDietBtn" >Skomponuj dietę</button>
+    </form>
 </div>
 </body>
 </html>

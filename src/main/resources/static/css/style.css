@@ -164,6 +164,19 @@ body {
     background: rgba(0,255,0,0.2);
 }
 
+.generateDietBtn {
+    width: 250px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: Calc(50% - 125px);
+}
+
+.loseHoldGainBtns {
+    width: 200px;
+    margin-top: 20px;
+    height: 40px;
+}
+
 /* LOGIN FORM */
 
 .simple-login-container {

@@ -47,6 +47,45 @@ public class DietController {
         return "diets/index";
     }
 
+    @GetMapping("/create")
+    public String create(Principal principal, Model model) {
+        User user = userRepository.findByUsername(principal.getName());
+        model.addAttribute( "user", user);
+        return "diets/create";
+    }
+
+
+    @PostMapping("/generate/auto/lose")
+    public String generateRandomLose(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        int expectedKcal = user.getMetabolism().getKcalToLose();
+        generateRandomDiet(user, expectedKcal);
+        return "redirect:/diets/?generatedSuccessfully";
+    }
+
+    @PostMapping("/generate/auto/hold")
+    public String generateRandomHold(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        int expectedKcal = user.getMetabolism().getKcalToHold();
+        generateRandomDiet(user, expectedKcal);
+        return "redirect:/diets/?generatedSuccessfully";
+    }
+
+    @PostMapping("/generate/auto/gain")
+    public String generateRandomGain(Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        int expectedKcal = user.getMetabolism().getKcalToGain();
+        generateRandomDiet(user, expectedKcal);
+        return "redirect:/diets/?generatedSuccessfully";
+    }
+
+    public void generateRandomDiet(User user, int expectedKcal) {
+        checkDiet(user);
+        for(int i=0;i<7;i++) {
+            generateDay(user, i, expectedKcal);
+        }
+    }
+
     public void checkDiet(User user) {
         if(user.getDiet()==null) {
             Diet diet = new Diet();
@@ -73,52 +112,37 @@ public class DietController {
         userRepository.save(user);
     }
 
-    @GetMapping("/create")
-    public String create() {
-        return "diets/create";
-    }
-
-    @PostMapping("/generate/hold/auto")
-    public String generateRandomHold(Principal principal) {
-        User user = userRepository.findByUsername(principal.getName());
-        checkDiet(user);
-        for(int i=0;i<7;i++) {
-            generateDay(user, i);
-        }
-        return "redirect:/diets/?generatedSuccessfully";
-    }
-
-    public void generateMeal(User user, int dayIndex, int mealIndex) {
+    public void generateMeal(User user, int dayIndex, int mealIndex, int kcalToHold) {
         Diet diet = user.getDiet();
         List<Meal> meals = mealRepository.findAll();
         List<Meal> selected = new ArrayList<>();
         int minCalories, maxCalories;
-        System.out.println(user.getMetabolism().getKcalToHold()*0.9 + "-" + user.getMetabolism().getKcalToHold()*1.1);
+        System.out.println(kcalToHold *0.95 + "-" + kcalToHold*1.05);
         switch (mealIndex) {
             case 0: {
-                minCalories = (int) (BREAKFAST_MIN*user.getMetabolism().getKcalToHold());
-                maxCalories = (int) (BREAKFAST_MAX*user.getMetabolism().getKcalToHold());
+                minCalories = (int) (BREAKFAST_MIN*kcalToHold);
+                maxCalories = (int) (BREAKFAST_MAX*kcalToHold);
                 System.out.println("min: "+ minCalories);
                 System.out.println("max: " + maxCalories);
                 break;
             }
             case 1: {
-                minCalories = (int) (LUNCH_MIN*user.getMetabolism().getKcalToHold());
-                maxCalories = (int) (LUNCH_MAX*user.getMetabolism().getKcalToHold());
+                minCalories = (int) (LUNCH_MIN*kcalToHold);
+                maxCalories = (int) (LUNCH_MAX*kcalToHold);
                 System.out.println("min: "+ minCalories);
                 System.out.println("max: " + maxCalories);
                 break;
             }
             case 2: {
-                minCalories = (int) (DINNER_MIN*user.getMetabolism().getKcalToHold());
-                maxCalories = (int) (DINNER_MAX*user.getMetabolism().getKcalToHold());
+                minCalories = (int) (DINNER_MIN*kcalToHold);
+                maxCalories = (int) (DINNER_MAX*kcalToHold);
                 System.out.println("min: "+ minCalories);
                 System.out.println("max: " + maxCalories);
                 break;
             }
             case 3: {
-                minCalories = (int) (SUPPER_MIN*user.getMetabolism().getKcalToHold());
-                maxCalories = (int) (SUPPER_MAX*user.getMetabolism().getKcalToHold());
+                minCalories = (int) (SUPPER_MIN*kcalToHold);
+                maxCalories = (int) (SUPPER_MAX*kcalToHold);
                 System.out.println("min: "+ minCalories);
                 System.out.println("max: " + maxCalories);
                 break;
@@ -153,9 +177,9 @@ public class DietController {
         dietRepository.save(diet);
     }
 
-    public void generateDay(User user, int dayIndex) {
+    public void generateDay(User user, int dayIndex, int kcalToHold) {
         for(int i=0;i<4;i++) {
-            generateMeal(user, dayIndex, i);
+            generateMeal(user, dayIndex, i, kcalToHold);
             Day[] days = user.getDiet().getDays();
             MealPointer[] mealPointers = days[dayIndex].getMealPointers();
             days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() +

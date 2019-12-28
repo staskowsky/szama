@@ -1,14 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Skomponuj dietę</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
+<div class="header nopadding">
+    <div class="headerNavbar centered" id="mainHeader">
+        <a href="/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+            </div>
+        </a>
+        <a href="/products/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
+            </div>
+        </a>
+        <a href="/meals/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
+            </div>
+        </a>
+        <a href="/diets/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
+            </div>
+        </a>
+        <a href="/metabolism/">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
+            </div>
+        </a>
+        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
+        </div>
+        <a href="/login">
+            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+            </div>
+        </a>
+    </div>
+    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione
+        </div>
+        <div class="headerBtn">
+            <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
+        </div>
+        <a href="/settings">
+            <div class="headerBtn">
+                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
+            </div>
+        </a>
+        <div class="headerBtn" style="visibility: hidden;">
+            <form action="/logout" method="post">
+                <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
+            </form>
+        </div>
+
+        <div class="headerBtn" onclick="hideExtras()">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
+        </div>
+    </div>
+</div>
+
+<div class="container nopadding">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-12 col-lg-10 content">
+
+            <h2>Automatyczne generowanie diet: </h2>
+            <form th:action="@{/diets/generate/auto/lose}" method="post">
+                <button type="submit" class="btn btn-danger loseHoldGainBtns">Chcę stracić masę</button>
+            </form>
+            <form th:action="@{/diets/generate/auto/hold}" method="post">
+                <button type="submit" class="btn btn-success loseHoldGainBtns">Chcę utrzymać masę</button>
+            </form>
+            <form th:action="@{/diets/generate/auto/gain}" method="post">
+                <button type="submit" class="btn btn-primary loseHoldGainBtns">Chcę zbudować masę</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

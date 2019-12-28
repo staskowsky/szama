@@ -107,7 +107,7 @@
                         <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block">
                             <button type="submit" class="btn btn-dark">Edytuj</button>
                         </form>
-                        <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block">
+                        <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block" th:if="${#authorization.expression('isAuthenticated()')}">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Na pewno chcesz usunąć ten przepis?');">Usuń</button>
                         </form>
                     </div>
