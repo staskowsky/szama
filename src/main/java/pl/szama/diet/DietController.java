@@ -13,8 +13,7 @@ import pl.szama.user.User;
 import pl.szama.user.UserRepository;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/diets")
@@ -124,6 +123,7 @@ public class DietController {
         Diet diet = user.getDiet();
         List<Meal> meals = mealRepository.findAll();
         List<Meal> selected = new ArrayList<>();
+        List<Float> quantites = new ArrayList<>();
         int minCalories, maxCalories;
         switch (mealIndex) {
             case 0: {
@@ -155,11 +155,32 @@ public class DietController {
         for(int i=0;i<meals.size();i++) {
             if(meals.get(i).getKcal()<=maxCalories && meals.get(i).getKcal()>=minCalories) {
                 selected.add(meals.get(i));
+                quantites.add((float) 1);
             }
         }
         Day[] days = diet.getDays();
         MealPointer[] mealPointers = days[dayIndex].getMealPointers();
-        if(selected.isEmpty()) {
+
+        //in case there are less than 3 available recipes,
+        //try to find recipes with doubled or halved portions
+        if(selected.size()<3) {
+            for(int i=0;i<meals.size();i++) {
+                if(meals.get(i).getKcal()*0.5<=maxCalories && meals.get(i).getKcal()*0.5>=minCalories) {
+                    selected.add(meals.get(i));
+                    quantites.add((float) 0.5);
+                }
+            }
+            for(int i=0;i<meals.size();i++) {
+                if(meals.get(i).getKcal()*2<=maxCalories && meals.get(i).getKcal()*2>=minCalories) {
+                    selected.add(meals.get(i));
+                    quantites.add((float) 2);
+                }
+            }
+        }
+
+        //in case there are no available recipes,
+        //try to find recipe with kcals closest to required
+        if (selected.isEmpty()) {
             boolean fromDoubles = false;
             boolean fromHalves = false;
             int chosenMeal = 0;
@@ -198,9 +219,9 @@ public class DietController {
         } else {
             int random = (int) (Math.random()*selected.size());
             mealPointers[mealIndex].setMeal(selected.get(random));
-            mealPointers[mealIndex].setQuantity(1);
+            mealPointers[mealIndex].setQuantity(quantites.get(random));
         }
-        System.out.println(mealPointers[mealIndex].getMeal().getName() + ": " + mealPointers[mealIndex].getMeal().getKcal());
+
         if(mealPointers[0].getMeal()!=null && mealPointers[1].getMeal()!=null && mealPointers[2].getMeal()!=null && mealPointers[3].getMeal()!=null) {
             days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
                     mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity() +
@@ -221,5 +242,4 @@ public class DietController {
                 mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity()+
                 mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
     }
-
 }
