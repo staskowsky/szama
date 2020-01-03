@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/meals/").permitAll()
                 .antMatchers("/meals/**").hasAnyRole("ADMIN", "MOD")
                 .antMatchers("/diets/").authenticated()
+                .antMatchers("/diets/**").authenticated()
                 .antMatchers("/settings").authenticated()
                 .antMatchers("/metabolism").permitAll()
                 .antMatchers("/metabolism/**").authenticated()

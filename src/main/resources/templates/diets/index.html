@@ -101,17 +101,26 @@
                     <div class="col-2 padding10 dayname">
                         Poniedziałek
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[0].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[0].meal.id}"
+                           th:text="${user.diet.days[0].mealPointers[0].meal.name}"></a>
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[0].mealPointers[1].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[1].meal.id}" th:text="${user.diet.days[0].mealPointers[1].meal.name}"></a>
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[0].mealPointers[2].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[2].meal.id}" th:text="${user.diet.days[0].mealPointers[2].meal.name}"></a>
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[0].mealPointers[3].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[3].meal.id}" th:text="${user.diet.days[0].mealPointers[3].meal.name}"></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${user.diet.days[0].caloricity} + 'kcal'"></p>

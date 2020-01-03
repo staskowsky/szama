@@ -160,6 +160,8 @@ public class DietController {
         Day[] days = diet.getDays();
         MealPointer[] mealPointers = days[dayIndex].getMealPointers();
         if(selected.isEmpty()) {
+            boolean fromDoubles = false;
+            boolean fromHalves = false;
             int chosenMeal = 0;
             int difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(0).getKcal());
             for(int i=1;i<meals.size();i++) {
@@ -168,29 +170,56 @@ public class DietController {
                     difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
                 }
             }
+            //looking for meal in double portions
+            for(int i=0;i<meals.size();i++) {
+                if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal()*2)<difference) {
+                    chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
+                    fromDoubles = true;
+                }
+            }
+            //looking for meal in half portions
+            for(int i=0;i<meals.size();i++) {
+                if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal()*0.5)<difference) {
+                    chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
+                    fromDoubles = false;
+                    fromHalves = true;
+                }
+            }
             mealPointers[mealIndex].setMeal(meals.get(chosenMeal));
+            if(fromDoubles==false && fromHalves==false) {
+                mealPointers[mealIndex].setQuantity(1);
+            } else if (fromDoubles==true && fromHalves==false) {
+                mealPointers[mealIndex].setQuantity(2);
+            } else {
+                mealPointers[mealIndex].setQuantity((float) 0.5);
+            }
         } else {
             int random = (int) (Math.random()*selected.size());
             mealPointers[mealIndex].setMeal(selected.get(random));
+            mealPointers[mealIndex].setQuantity(1);
         }
         System.out.println(mealPointers[mealIndex].getMeal().getName() + ": " + mealPointers[mealIndex].getMeal().getKcal());
-        days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() +
-                mealPointers[1].getMeal().getKcal() +
-                mealPointers[2].getMeal().getKcal() +
-                mealPointers[3].getMeal().getKcal());
+        if(mealPointers[0].getMeal()!=null && mealPointers[1].getMeal()!=null && mealPointers[2].getMeal()!=null && mealPointers[3].getMeal()!=null) {
+            days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
+                    mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity() +
+                    mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity() +
+                    mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
+        }
         dietRepository.save(diet);
     }
 
     public void generateDay(User user, int dayIndex, int expectedKcal) {
+        Day[] days = user.getDiet().getDays();
+        MealPointer[] mealPointers = days[dayIndex].getMealPointers();
         for(int i=0;i<4;i++) {
             generateMeal(user, dayIndex, i, expectedKcal);
-            Day[] days = user.getDiet().getDays();
-            MealPointer[] mealPointers = days[dayIndex].getMealPointers();
-            days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() +
-                    mealPointers[1].getMeal().getKcal() +
-                    mealPointers[2].getMeal().getKcal() +
-                    mealPointers[3].getMeal().getKcal());
         }
+        days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
+                mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity()+
+                mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity()+
+                mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
     }
 
 }

@@ -27,4 +27,8 @@ public class MealPointer {
     @OneToOne
     private Meal meal;
 
+    @Getter
+    @Setter
+    @Column(name = "quantity")
+    private float quantity;
 }
