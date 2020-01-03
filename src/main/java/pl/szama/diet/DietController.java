@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.szama.meal.Meal;
 import pl.szama.meal.MealRepository;
 import pl.szama.user.User;
@@ -79,6 +80,13 @@ public class DietController {
         return "redirect:/diets/?generatedSuccessfully";
     }
 
+    @PostMapping("/generate/auto")
+    public String generateRandomKcalGiven(Principal principal, @RequestParam int expectedKcal) {
+        User user = userRepository.findByUsername(principal.getName());
+        generateRandomDiet(user, expectedKcal);
+        return "redirect:/diets/?generatedSuccessfully";
+    }
+
     public void generateRandomDiet(User user, int expectedKcal) {
         checkDiet(user);
         for(int i=0;i<7;i++) {
@@ -90,8 +98,8 @@ public class DietController {
         if(user.getDiet()==null) {
             Diet diet = new Diet();
             diet.setUser(user);
-            diet.setMinCaloricity((float) (user.getMetabolism().getKcalToHold()*0.9));
-            diet.setMaxCaloricity((float) (user.getMetabolism().getKcalToHold()*1.1));
+            diet.setMinCaloricity((float) (user.getMetabolism().getKcalToHold()*0.95));
+            diet.setMaxCaloricity((float) (user.getMetabolism().getKcalToHold()*1.05));
             user.setDiet(diet);
             Day[] days = new Day[7];
             for(int i=0;i<7;i++) {
@@ -112,39 +120,30 @@ public class DietController {
         userRepository.save(user);
     }
 
-    public void generateMeal(User user, int dayIndex, int mealIndex, int kcalToHold) {
+    public void generateMeal(User user, int dayIndex, int mealIndex, int expectedKcal) {
         Diet diet = user.getDiet();
         List<Meal> meals = mealRepository.findAll();
         List<Meal> selected = new ArrayList<>();
         int minCalories, maxCalories;
-        System.out.println(kcalToHold *0.95 + "-" + kcalToHold*1.05);
         switch (mealIndex) {
             case 0: {
-                minCalories = (int) (BREAKFAST_MIN*kcalToHold);
-                maxCalories = (int) (BREAKFAST_MAX*kcalToHold);
-                System.out.println("min: "+ minCalories);
-                System.out.println("max: " + maxCalories);
+                minCalories = (int) (BREAKFAST_MIN*expectedKcal);
+                maxCalories = (int) (BREAKFAST_MAX*expectedKcal);
                 break;
             }
             case 1: {
-                minCalories = (int) (LUNCH_MIN*kcalToHold);
-                maxCalories = (int) (LUNCH_MAX*kcalToHold);
-                System.out.println("min: "+ minCalories);
-                System.out.println("max: " + maxCalories);
+                minCalories = (int) (LUNCH_MIN*expectedKcal);
+                maxCalories = (int) (LUNCH_MAX*expectedKcal);
                 break;
             }
             case 2: {
-                minCalories = (int) (DINNER_MIN*kcalToHold);
-                maxCalories = (int) (DINNER_MAX*kcalToHold);
-                System.out.println("min: "+ minCalories);
-                System.out.println("max: " + maxCalories);
+                minCalories = (int) (DINNER_MIN*expectedKcal);
+                maxCalories = (int) (DINNER_MAX*expectedKcal);
                 break;
             }
             case 3: {
-                minCalories = (int) (SUPPER_MIN*kcalToHold);
-                maxCalories = (int) (SUPPER_MAX*kcalToHold);
-                System.out.println("min: "+ minCalories);
-                System.out.println("max: " + maxCalories);
+                minCalories = (int) (SUPPER_MIN*expectedKcal);
+                maxCalories = (int) (SUPPER_MAX*expectedKcal);
                 break;
             }
             default:
@@ -166,6 +165,7 @@ public class DietController {
             for(int i=1;i<meals.size();i++) {
                 if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal())<difference) {
                     chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
                 }
             }
             mealPointers[mealIndex].setMeal(meals.get(chosenMeal));
@@ -174,12 +174,16 @@ public class DietController {
             mealPointers[mealIndex].setMeal(selected.get(random));
         }
         System.out.println(mealPointers[mealIndex].getMeal().getName() + ": " + mealPointers[mealIndex].getMeal().getKcal());
+        days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() +
+                mealPointers[1].getMeal().getKcal() +
+                mealPointers[2].getMeal().getKcal() +
+                mealPointers[3].getMeal().getKcal());
         dietRepository.save(diet);
     }
 
-    public void generateDay(User user, int dayIndex, int kcalToHold) {
+    public void generateDay(User user, int dayIndex, int expectedKcal) {
         for(int i=0;i<4;i++) {
-            generateMeal(user, dayIndex, i, kcalToHold);
+            generateMeal(user, dayIndex, i, expectedKcal);
             Day[] days = user.getDiet().getDays();
             MealPointer[] mealPointers = days[dayIndex].getMealPointers();
             days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() +

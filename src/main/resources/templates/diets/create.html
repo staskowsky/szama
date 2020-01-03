@@ -86,7 +86,12 @@
             <form th:action="@{/diets/generate/auto/gain}" method="post">
                 <button type="submit" class="btn btn-primary loseHoldGainBtns">Chcę zbudować masę</button>
             </form>
-
+            <h2>Dieta na określoną ilość kalorii</h2>
+            <form th:action="@{/diets/generate/auto}" method="post">
+                <p>Podaj oczekiwaną ilość kalorii w kcal: </p>
+                <input type="text" th:name="expectedKcal" class="form-control w-25">
+                <button type="submit" class="btn btn-primary loseHoldGainBtns">Utwórz dietę</button>
+            </form>
         </div>
     </div>
 

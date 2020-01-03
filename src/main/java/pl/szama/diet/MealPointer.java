@@ -26,4 +26,5 @@ public class MealPointer {
     @Setter
     @OneToOne
     private Meal meal;
+
 }
