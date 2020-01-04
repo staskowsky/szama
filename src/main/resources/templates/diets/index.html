@@ -80,9 +80,9 @@
                 Jeśli problem będzie się powtarzał skontaktuj się z administratorem.
             </div>
 
-            <h1 class="w-100">Dieta</h1>
+            <h1 class="w-100" style="margin-bottom: -60px;">Dieta</h1>
 
-            <div th:unless="${user.diet==null}" class="col-12 prodTable">
+            <div th:unless="${user.diet==null}" class="col-12 prodTable" style="height: 392px;">
                 <div class="row prodTableTop borderbtm font-weight-bold">
                     <div class="col-2 padding10">
                         Dzień tygodnia
@@ -108,148 +108,391 @@
                         Poniedziałek
                     </div>
                     <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '0/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
                         <span th:if="${user.diet.days[0].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[0].meal.id}"
-                           th:text="${user.diet.days[0].mealPointers[0].meal.name}"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[0].meal.name,32)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '0/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
                         <span th:if="${user.diet.days[0].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
-                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[1].meal.id}" th:text="${user.diet.days[0].mealPointers[1].meal.name}"></a>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[1].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '0/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
                         <span th:if="${user.diet.days[0].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
-                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[2].meal.id}" th:text="${user.diet.days[0].mealPointers[2].meal.name}"></a>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[2].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '0/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
                         <span th:if="${user.diet.days[0].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
-                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[3].meal.id}" th:text="${user.diet.days[0].mealPointers[3].meal.name}"></a>
+                        <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[0].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[0].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row mint borderbtm transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Wtorek
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[1].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '1/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[1].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[1].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '1/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[1].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[1].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '1/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[1].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[1].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '1/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[1].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[1].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[1].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[1].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[1].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[1].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[1].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row borderbtm transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Środa
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[2].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '2/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[2].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[2].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '2/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[2].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[2].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '2/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[2].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[2].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '2/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[2].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[2].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[2].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[2].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[2].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[2].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[2].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row mint borderbtm transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Czwartek
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[3].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '3/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[3].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[3].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '3/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[3].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[3].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '3/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[3].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[3].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '3/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[3].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[3].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[3].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[3].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[3].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[3].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[3].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row borderbtm transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Piątek
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[4].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '4/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[4].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[4].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '4/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[4].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[4].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '4/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[4].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[4].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '4/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[4].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[4].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[4].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[4].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[4].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[4].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[4].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row mint borderbtm transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Sobota
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[5].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '5/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[5].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[5].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '5/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[5].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[5].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '5/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[5].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[5].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '5/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[5].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[5].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[5].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[5].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[5].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[5].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[5].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
                 <div class="row transparentMintHighlight">
                     <div class="col-2 padding10 dayname">
                         Niedziela
                     </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[6].mealPointers[0].meal.name}"></p>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '6/0'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[6].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[6].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[0].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '6/1'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[6].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[6].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[1].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '6/2'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[6].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[6].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[2].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                    </div>
+                    <div class="col-2 row nopadding padding10">
+                        <form th:action="@{/diets/swap/} + '0/3'" method="post">
+                            <button type="submit" class="btn rerollBtn nopadding">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </form>
+                        &nbsp;
+                        <span th:if="${user.diet.days[6].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[6].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
+                        <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[3].meal.id}"
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[3].meal.name,32)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[6].mealPointers[1].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[6].mealPointers[2].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[6].mealPointers[3].meal.name}"></p>
-                    </div>
-                    <div class="col-2 padding10">
-                        <p th:text="${user.diet.days[6].caloricity} + 'kcal'"></p>
+                        <p th:text="${#strings.substring(user.diet.days[6].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
             </div>

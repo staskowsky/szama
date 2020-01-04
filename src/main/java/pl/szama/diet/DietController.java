@@ -3,10 +3,7 @@ package pl.szama.diet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.szama.meal.Meal;
 import pl.szama.meal.MealRepository;
 import pl.szama.user.User;
@@ -84,6 +81,14 @@ public class DietController {
         User user = userRepository.findByUsername(principal.getName());
         generateRandomDiet(user, expectedKcal);
         return "redirect:/diets/?generatedSuccessfully";
+    }
+
+    @PostMapping("/swap/{day}/{meal}")
+    public String swapChosenMeal(@PathVariable("day") int dayIndex, @PathVariable("meal") int mealIndex, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        int expectedKcal = (int) ((user.getDiet().getMinCaloricity()+user.getDiet().getMaxCaloricity())/2);
+        generateMealToMissingKcal(user, dayIndex, mealIndex, expectedKcal);
+        return "redirect:/diets/?swappedSuccessfully";
     }
 
     public String somethingWentWrong() {
@@ -250,6 +255,9 @@ public class DietController {
             generateMealToMissingKcal(user, dayIndex, 1, expectedKcal);
         }
 
+        diet.setMinCaloricity((float) (expectedKcal*0.95));
+        diet.setMaxCaloricity((float) (expectedKcal*1.05));
+
         dietRepository.save(diet);
     }
 
@@ -348,6 +356,9 @@ public class DietController {
                     mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity() +
                     mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
         }
+
+        diet.setMinCaloricity((float) (expectedKcal*0.95));
+        diet.setMaxCaloricity((float) (expectedKcal*1.05));
 
         dietRepository.save(diet);
     }

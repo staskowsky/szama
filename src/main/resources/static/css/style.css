@@ -124,6 +124,7 @@ body {
     font-weight: bold;
     background: gray;
     border-right: 1px solid black;
+    height: 49px;
 }
 
 .nopadding {
@@ -143,6 +144,28 @@ body {
     padding: 10px;
 }
 
+.rerollBtn {
+    font-size: small;
+    font-weight: bold;
+    height: 10px;
+    width: 10px;
+    margin-top: -10px;
+    margin-right: 7px;
+}
+
+.rerollBtn:hover {
+    color: #404040;
+}
+
+.textLink {
+    color: black;
+}
+
+.textLink:hover {
+    text-decoration: none;
+    color: #404040;
+}
+
 .cardTitle {
     font-size: 24px;
 }
@@ -160,13 +183,18 @@ body {
     border-bottom: 1px solid black;
 }
 
+.transparentMintHighlight {
+    height: 50px;
+}
+
 .transparentMintHighlight:hover {
     background: rgba(0,255,0,0.2);
+    height: 50px;
 }
 
 .generateDietBtn {
     width: 250px;
-    margin-top: 20px;
+    margin-top: -60px;
     margin-bottom: 50px;
     margin-left: Calc(50% - 125px);
 }
