@@ -75,7 +75,13 @@
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-12 col-lg-10 content row">
-            <h1>Dieta</h1>
+            <div class="alert alert-danger border-danger w-50 offset-3 centered" th:if="${param.fatal}">
+                Coś poszło nie tak. Spróbuj ponownie. <br>
+                Jeśli problem będzie się powtarzał skontaktuj się z administratorem.
+            </div>
+
+            <h1 class="w-100">Dieta</h1>
+
             <div th:unless="${user.diet==null}" class="col-12 prodTable">
                 <div class="row prodTableTop borderbtm font-weight-bold">
                     <div class="col-2 padding10">
@@ -102,24 +108,24 @@
                         Poniedziałek
                     </div>
                     <div class="col-2 row nopadding padding10">
-                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
-                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[0].meal.id}"
                            th:text="${user.diet.days[0].mealPointers[0].meal.name}"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
-                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
-                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[1].meal.id}" th:text="${user.diet.days[0].mealPointers[1].meal.name}"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
-                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
-                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[2].meal.id}" th:text="${user.diet.days[0].mealPointers[2].meal.name}"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
-                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==2" class="font-weight-bold">2x &nbsp;</span>
-                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2 &nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
+                        <span th:if="${user.diet.days[0].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[3].meal.id}" th:text="${user.diet.days[0].mealPointers[3].meal.name}"></a>
                     </div>
                     <div class="col-2 padding10">

@@ -86,11 +86,8 @@ public class DietController {
         return "redirect:/diets/?generatedSuccessfully";
     }
 
-    public void generateRandomDiet(User user, int expectedKcal) {
-        checkDiet(user);
-        for(int i=0;i<7;i++) {
-            generateDay(user, i, expectedKcal);
-        }
+    public String somethingWentWrong() {
+        return "redirect:/?fatal";
     }
 
     public void checkDiet(User user) {
@@ -118,6 +115,26 @@ public class DietController {
         dietRepository.save(user.getDiet());
         userRepository.save(user);
     }
+
+    public void generateRandomDiet(User user, int expectedKcal) {
+        checkDiet(user);
+        for(int i=0;i<7;i++) {
+            generateDay(user, i, expectedKcal);
+        }
+    }
+
+    public void generateDay(User user, int dayIndex, int expectedKcal) {
+        Day[] days = user.getDiet().getDays();
+        MealPointer[] mealPointers = days[dayIndex].getMealPointers();
+        for(int i=0;i<4;i++) {
+            generateMeal(user, dayIndex, i, expectedKcal);
+        }
+        days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
+                mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity()+
+                mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity()+
+                mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
+    }
+
 
     public void generateMeal(User user, int dayIndex, int mealIndex, int expectedKcal) {
         Diet diet = user.getDiet();
@@ -228,18 +245,110 @@ public class DietController {
                     mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity() +
                     mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
         }
+
+        if(days[dayIndex].getCaloricity()<expectedKcal*0.95 || days[dayIndex].getCaloricity()>expectedKcal*1.05) {
+            generateMealToMissingKcal(user, dayIndex, 1, expectedKcal);
+        }
+
         dietRepository.save(diet);
     }
 
-    public void generateDay(User user, int dayIndex, int expectedKcal) {
-        Day[] days = user.getDiet().getDays();
-        MealPointer[] mealPointers = days[dayIndex].getMealPointers();
+    public void generateMealToMissingKcal(User user, int dayIndex, int mealIndex, int expectedKcal) {
+        Diet diet = user.getDiet();
+        Day days[] = user.getDiet().getDays();
+        MealPointer mealPointers[] = days[dayIndex].getMealPointers();
+        List<Meal> meals = mealRepository.findAll();
+        List<Meal> selected = new ArrayList<>();
+        List<Float> quantites = new ArrayList<>();
+        int minCalories = (int) (expectedKcal*0.95);
+        int maxCalories = (int) (expectedKcal*1.05);
         for(int i=0;i<4;i++) {
-            generateMeal(user, dayIndex, i, expectedKcal);
+            if(i!=mealIndex) {
+                minCalories = minCalories - (int) (mealPointers[i].getMeal().getKcal()*mealPointers[i].getQuantity());
+                maxCalories = maxCalories - (int) (mealPointers[i].getMeal().getKcal()*mealPointers[i].getQuantity());
+            }
         }
-        days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
-                mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity()+
-                mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity()+
-                mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
+
+        for(int i=0;i<meals.size();i++) {
+            if(meals.get(i).getKcal()<=maxCalories && meals.get(i).getKcal()>=minCalories) {
+                selected.add(meals.get(i));
+                quantites.add((float) 1);
+            }
+        }
+
+        if(selected.size()<3) {
+            for(int i=0;i<meals.size();i++) {
+                if(meals.get(i).getKcal()*0.5<=maxCalories && meals.get(i).getKcal()*0.5>=minCalories) {
+                    selected.add(meals.get(i));
+                    quantites.add((float) 0.5);
+                }
+            }
+            for(int i=0;i<meals.size();i++) {
+                if(meals.get(i).getKcal()*2<=maxCalories && meals.get(i).getKcal()*2>=minCalories) {
+                    selected.add(meals.get(i));
+                    quantites.add((float) 2);
+                }
+            }
+        }
+
+        //in case there are no available recipes,
+        //try to find recipe with kcals closest to required
+        if (selected.isEmpty()) {
+            boolean fromDoubles = false;
+            boolean fromHalves = false;
+            int chosenMeal = 0;
+            int difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(0).getKcal());
+            for(int i=1;i<meals.size();i++) {
+                if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal())<difference) {
+                    chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
+                    fromDoubles = false;
+                    fromHalves = false;
+                }
+            }
+            //looking for meal in double portions
+            for(int i=0;i<meals.size();i++) {
+                if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal()*2)<difference) {
+                    chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
+                    fromDoubles = true;
+                    fromHalves = false;
+                }
+            }
+            //looking for meal in half portions
+            for(int i=0;i<meals.size();i++) {
+                if(Math.abs(((minCalories+maxCalories)*0.5) - meals.get(i).getKcal()*0.5)<difference) {
+                    chosenMeal = i;
+                    difference = (int) Math.abs(((minCalories+maxCalories)*0.5) - meals.get(chosenMeal).getKcal());
+                    fromDoubles = false;
+                    fromHalves = true;
+                }
+            }
+            mealPointers[mealIndex].setMeal(meals.get(chosenMeal));
+            if(fromDoubles==false && fromHalves==false) {
+                mealPointers[mealIndex].setQuantity(1);
+            }
+            else if (fromDoubles==true && fromHalves==false) {
+                mealPointers[mealIndex].setQuantity(2);
+            }
+            else if (fromDoubles==false && fromHalves==true){
+                mealPointers[mealIndex].setQuantity((float) 0.5);
+            } else {
+                somethingWentWrong();
+            }
+        } else {
+            int random = (int) (Math.random()*selected.size());
+            mealPointers[mealIndex].setMeal(selected.get(random));
+            mealPointers[mealIndex].setQuantity(quantites.get(random));
+        }
+
+        if(mealPointers[0].getMeal()!=null && mealPointers[1].getMeal()!=null && mealPointers[2].getMeal()!=null && mealPointers[3].getMeal()!=null) {
+            days[dayIndex].setCaloricity(mealPointers[0].getMeal().getKcal() * mealPointers[0].getQuantity() +
+                    mealPointers[1].getMeal().getKcal() * mealPointers[1].getQuantity() +
+                    mealPointers[2].getMeal().getKcal() * mealPointers[2].getQuantity() +
+                    mealPointers[3].getMeal().getKcal() * mealPointers[3].getQuantity());
+        }
+
+        dietRepository.save(diet);
     }
 }
