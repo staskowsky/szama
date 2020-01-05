@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Przepisy</title>
@@ -80,12 +80,12 @@
             <div class="alert alert-danger border-danger" th:if="${param.deleteSuccessful}">Usunięto przepis.</div>
 
             <div class="centered">
-                <a href="/meals/create/name"><button class="btn btn-success">Nowy przepis</button></a>
+                <a href="/meals/create/name"><button class="btn btn-success" sec:authorize="hasRole('ADMIN')">Nowy przepis</button></a>
             </div>
 
             <div class="row">
                 <div th:each="meal : ${meal}" class="card cardWidth margin20">
-                    <img src="https://cdn.pixabay.com/photo/2015/04/08/13/13/pasta-712664_960_720.jpg" class="card-img-top">
+                    <img src="/img/aparat.png" class="card-img-top">
                     <div class="card-body">
                         <h2 th:text="${meal.name}"></h2>
                         <h4>W porcji:</h4>
@@ -97,17 +97,18 @@
                         </div>
                         <hr>
                         <h4>Składniki:</h4>
-                        <div th:each="ingredient : ${ingredient}">
-                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name} + ' (' + ${ingredient.volume} + ')'" class="card-text gray"></p>
+                        <div th:each="ingredient : ${ingredient}" class="row nopadding paddingleft10">
+                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="nopadding"></p>
+                            <p th:if="${ingredient.volume != ''} and ${ingredient.meal == meal}" th:text="'&nbsp;(' + ${ingredient.volume} + ')' "class="nopadding"></p>
                         </div>
                         <hr>
                         <form th:action="@{/meals/} + ${meal.id}" method="get" class="d-inline-block">
                             <button type="submit" class="btn btn-primary">Zobacz przepis</button>
                         </form>
-                        <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block">
+                        <form th:action="@{/meals/edit/} + ${meal.id}" method="get" class="d-inline-block" sec:authorize="hasRole('ADMIN')">
                             <button type="submit" class="btn btn-dark">Edytuj</button>
                         </form>
-                        <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block" th:if="${#authorization.expression('isAuthenticated()')}">
+                        <form th:action="@{/meals/delete/} + ${meal.id}" method="post" class="d-inline-block" sec:authorize="hasRole('ADMIN')">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Na pewno chcesz usunąć ten przepis?');">Usuń</button>
                         </form>
                     </div>

@@ -144,6 +144,10 @@ body {
     padding: 10px;
 }
 
+.paddingleft10 {
+    padding-left: 10px;
+}
+
 .rerollBtn {
     font-size: small;
     font-weight: bold;
@@ -194,9 +198,8 @@ body {
 
 .generateDietBtn {
     width: 250px;
-    margin-top: -60px;
-    margin-bottom: 50px;
-    margin-left: Calc(50% - 125px);
+    margin-top: 20px;
+    margin-bottom: -20px;
 }
 
 .loseHoldGainBtns {

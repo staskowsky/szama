@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama</title>
@@ -76,7 +76,7 @@
         <div class="col-lg-1"></div>
         <div class="col-12 col-lg-10 content">
             <div class="centered">
-            <a href="/products/create"><button class="btn btn-success margin20">Nowy produkt</button></a>
+            <a href="/products/create"><button class="btn btn-success margin20" sec:authorize="hasRole('ADMIN')">Nowy produkt</button></a>
             </div>
             <div class="alert alert-success border-success col-4 offset-4 centered" th:if="${param.addingSuccessful}">Dodano produkt.</div>
             <div class="alert alert-secondary border-secondary col-4 offset-4 centered" th:if="${param.editSuccessful}">Edytowano produkt.</div>
@@ -99,9 +99,10 @@
                 </div>
                 <div th:each="product : ${product}" class="mealsTableRow nopadding row">
                     <div class="col-6 d-inline-block" style="border-right: 1px solid black;">
-                            <form th:action="@{/products/edit/} + ${product.id}" method="get" class="d-inline-block">
+                            <form th:action="@{/products/edit/} + ${product.id}" method="get" class="d-inline-block" sec:authorize="hasRole('ADMIN')">
                                 <button type="submit" class="btn-link" th:text="${product.name}"></button>
                             </form>
+                            <p sec:authorize="!hasRole('ADMIN')" th:text="${product.name}" class="nopadding"></p>
                     </div>
                     <div class="col row centered">
                         <div class="col-3 centered" style="background: lightcoral; height: 24px;">

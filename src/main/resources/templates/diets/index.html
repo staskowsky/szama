@@ -82,6 +82,10 @@
 
             <h1 class="w-100" style="margin-bottom: -60px;">Dieta</h1>
 
+            <form th:action="@{/diets/create}" method="get">
+                <button type="submit" class="btn btn-primary btn-block generateDietBtn" >Skomponuj nową dietę</button>
+            </form>
+
             <div th:unless="${user.diet==null}" class="col-12 prodTable" style="height: 392px;">
                 <div class="row prodTableTop borderbtm font-weight-bold">
                     <div class="col-2 padding10">
@@ -498,10 +502,6 @@
             </div>
         </div>
     </div>
-
-    <form th:action="@{/diets/create}" method="get">
-        <button type="submit" class="btn btn-primary btn-block generateDietBtn" >Skomponuj dietę</button>
-    </form>
 </div>
 </body>
 </html>
