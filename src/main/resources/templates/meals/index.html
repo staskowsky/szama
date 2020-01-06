@@ -90,15 +90,15 @@
                         <h2 th:text="${meal.name}"></h2>
                         <h4>W porcji:</h4>
                         <div>
-                            <p th:text=" 'Energia: ' + ${meal.kcal} + 'kcal'" class="nopadding gray"></p>
-                            <p th:text=" 'Białko: ' + ${meal.protein} + 'g' " class="nopadding gray"></p>
-                            <p th:text=" 'Węglowodany: ' + ${meal.carb} + 'g' " class="nopadding gray"></p>
-                            <p th:text=" 'Tłuszcz: ' + ${meal.fat} + 'g' " class="nopadding gray"></p>
+                            <p th:text=" 'Energia: ' + ${#numbers.formatDecimal(meal.kcal, 1, 0)} + 'kcal'" class="nopadding gray"></p>
+                            <p th:text=" 'Białko: ' + ${#numbers.formatDecimal(meal.protein, 1, 1)} + 'g' " class="nopadding gray"></p>
+                            <p th:text=" 'Węglowodany: ' + ${#numbers.formatDecimal(meal.carb, 1, 1)} + 'g' " class="nopadding gray"></p>
+                            <p th:text=" 'Tłuszcz: ' + ${#numbers.formatDecimal(meal.fat, 1, 1)} + 'g' " class="nopadding gray"></p>
                         </div>
                         <hr>
                         <h4>Składniki:</h4>
                         <div th:each="ingredient : ${ingredient}" class="row nopadding paddingleft10">
-                            <p th:if="${ingredient.meal == meal}" th:text="${ingredient.amount} + 'g ' + ${ingredient.product.name}" class="nopadding"></p>
+                            <p th:if="${ingredient.meal == meal}" th:text="${#numbers.formatDecimal(ingredient.amount, 1, 0)} + 'g ' + ${ingredient.product.name}" class="nopadding"></p>
                             <p th:if="${ingredient.volume != ''} and ${ingredient.meal == meal}" th:text="'&nbsp;(' + ${ingredient.volume} + ')' "class="nopadding"></p>
                         </div>
                         <hr>

@@ -11,6 +11,7 @@ import pl.szama.user.User;
 import pl.szama.user.UserRepository;
 
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
