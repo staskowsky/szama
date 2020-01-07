@@ -56,6 +56,6 @@ public class MetabolismController {
         user.setMetabolism(metabolism);
         metabolismRepository.save(metabolism);
         userRepository.save(user);
-        return "redirect:/metabolism?resultSaved";
+        return "redirect:/metabolism/?resultSaved";
     }
 }
