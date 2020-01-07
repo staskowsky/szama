@@ -87,6 +87,7 @@
                             </div>
                             <div class="col-6 form-group">
                                 <input type="text" th:field="${metabolism.height}" id="height" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                                <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -95,6 +96,7 @@
                             </div>
                             <div class="col-6 form-group">
                                 <input type="text" th:field="${metabolism.mass}" id="mass" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                                <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('mass')}" th:errors="*{mass}"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -103,6 +105,7 @@
                             </div>
                             <div class="col-6 form-group">
                                 <input type="text" th:field="${metabolism.age}" id="age" placeholder="Podaj wartość całkowitą" class="form-control" required/>
+                                <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
                             </div>
                         </div>
                         <h4>Płeć:</h4>

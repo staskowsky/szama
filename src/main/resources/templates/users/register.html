@@ -15,18 +15,21 @@
                 Login:
                 <div class="col-md-12 form-group">
                     <input type="text" th:field="${user.username}" id="username" class="form-control" required/>
+                    <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                 </div>
             </div>
             <div class="row">
                 Hasło:
                 <div class="col-md-12 form-group">
                     <input type="password" th:field="${user.password}" id="password" class="form-control" required/>
+                    <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                 </div>
             </div>
             <div class="row">
                 Email:
                 <div class="col-md-12 form-group">
                     <input type="text" th:field="${user.email}" id="email" class="form-control" required/>
+                    <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                 </div>
             </div>
             <button type="submit" class="btn btn-block btn-login">Zatwierdź</button>

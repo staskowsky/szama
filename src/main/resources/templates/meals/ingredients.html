@@ -122,7 +122,7 @@
                     <h4 th:if="${linkedProduct.meal} == ${meal}" th:text="${linkedProduct.amount} + 'g' + ' | ' + ${linkedProduct.product.name}"></h4>
                 </div>
 
-                <div th:if="${linkedProduct.empty}">
+                <div th:if="${linkedProduct} == null">
                     <p style="color: gray;">Brak produktów.</p>
                 </div>
 
@@ -135,6 +135,7 @@
                     </select>
                     <h4>Masa [g]:</h4>
                     <input type="number" th:field="${ingredient.amount}" name="ingredient" class="form-control">
+                    <p class="alert alert-danger margin20" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
                     <h4>Objętość (opcjonalnie):
                         <span data-toggle="tooltip" data-placement="top" title="W tej sekcji możemy w przybliżeniu określić objętość produktu (np. 1/2 szklanki, trzy łyżki, dwie puszki).">
                             <span class="glyphicon glyphicon-question-sign gray"></span>

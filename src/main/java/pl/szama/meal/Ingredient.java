@@ -6,6 +6,8 @@ import lombok.Setter;
 import pl.szama.product.Product;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name="ingredients")
@@ -31,6 +33,8 @@ public class Ingredient {
     @Getter
     @Setter
     @Column(name="amount")
+    @Min(value = 0, message = "Wartość musi być dodatnia.")
+    @Max(value = 10000, message = "Podaj prawidłową wartość.")
     private float amount;
     @Getter
     @Setter

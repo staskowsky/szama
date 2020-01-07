@@ -5,6 +5,8 @@ import lombok.Setter;
 import pl.szama.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name="metabolism")
@@ -24,10 +26,14 @@ public class Metabolism {
 
     @Getter
     @Setter
+    @Min(value = 30, message = "Podaj poprawną wartość.")
+    @Max(value = 300, message = "Podaj poprawną wartość.")
     public Integer mass;
 
     @Getter
     @Setter
+    @Min(value = 100, message = "Podaj poprawną wartość.")
+    @Max(value = 250, message = "Podaj poprawną wartość.")
     public Integer height;
 
     @Getter
@@ -36,6 +42,8 @@ public class Metabolism {
 
     @Getter
     @Setter
+    @Min(value = 15, message = "Podaj poprawną wartość.")
+    @Max(value = 120, message = "Podaj poprawną wartość.")
     public Integer age;
 
     @Getter

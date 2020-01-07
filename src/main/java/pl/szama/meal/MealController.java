@@ -3,6 +3,7 @@ package pl.szama.meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.szama.product.Product;
 import pl.szama.product.ProductRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -44,7 +46,10 @@ public class MealController {
     }
 
     @PostMapping("/create/new")
-    public String storeMeal(Meal meal, Model model, Ingredient ingredient) {
+    public String storeMeal(Model model, Ingredient ingredient, @Valid Meal meal, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "meals/create";
+        }
         mealRepository.save(meal);
         List<Product> products = productRepository.findAll();
         List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
@@ -56,7 +61,10 @@ public class MealController {
     }
 
     @PostMapping("/create/product")
-    public String storeProduct(Meal meal, Model model, Ingredient ingredient) {
+    public String storeProduct(Meal meal, Model model, @Valid Ingredient ingredient, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "meals/ingredients";
+        }
         ingredientRepository.save(ingredient);
         List<Product> products = productRepository.findAll();
         List<Ingredient> linkedProducts = ingredientRepository.findAllByMeal(meal);
@@ -123,7 +131,10 @@ public class MealController {
     }
 
     @PostMapping("/edit/product/add")
-    public String addProduct(Model model, Ingredient ingredient, Meal meal) {
+    public String addProduct(Model model, Meal meal, @Valid Ingredient ingredient, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "meals/ingredients";
+        }
         ingredient.setMeal(meal);
         ingredientRepository.save(ingredient);
         List<Product> products = productRepository.findAll();

@@ -3,6 +3,7 @@ package pl.szama.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.szama.diet.DietRepository;
 import pl.szama.meal.IngredientRepository;
@@ -10,6 +11,7 @@ import pl.szama.meal.MealRepository;
 import pl.szama.user.User;
 import pl.szama.user.UserRepository;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -47,7 +49,10 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String store(Product product, Principal principal) {
+    public String store(Principal principal, @Valid Product product, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "products/create";
+        }
         product.setUser(userRepository.findByUsername(principal.getName()));
         productRepository.save(product);
         return "redirect:/products?addingSuccessful";
