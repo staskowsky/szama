@@ -14,58 +14,58 @@
 <div class="header nopadding">
     <div class="headerNavbar centered" id="mainHeader">
         <a href="/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
             </div>
         </a>
         <a href="/products/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
             </div>
         </a>
         <a href="/meals/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
             </div>
         </a>
         <a href="/diets/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-calendar"></span> &nbsp; Dieta
             </div>
         </a>
         <a href="/metabolism/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
             </div>
         </a>
-        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="sidebarBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
             <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
         </div>
         <a href="/login">
-            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+            <div class="sidebarBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
                 <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
             </div>
         </a>
     </div>
     <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
         </div>
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
         </div>
         <a href="/settings">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
             </div>
         </a>
-        <div class="headerBtn" style="visibility: hidden;">
+        <div class="sidebarBtn" style="visibility: hidden;">
             <form action="/logout" method="post">
                 <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
             </form>
         </div>
 
-        <div class="headerBtn" onclick="hideExtras()">
+        <div class="sidebarBtn" onclick="hideExtras()">
             <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
         </div>
     </div>
@@ -78,7 +78,7 @@
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="simple-login-container w-75">
-                    <h1 class="centered">Twój wynik</h1>
+                    <h1 class="centered">Twoje dane</h1>
                     <div class="row"> <p class="font-weight-bold">Wzrost:&nbsp;</p> <p th:text="${metabolism.height} + 'cm'"></p> </div>
                     <div class="row"> <p class="font-weight-bold">Masa:&nbsp;</p> <p th:text="${metabolism.mass} + 'kg'"></p> </div>
                     <div class="row"> <p class="font-weight-bold">Wiek:&nbsp;</p> <p th:text="${metabolism.age}"></p> </div>
@@ -109,7 +109,9 @@
                         <input type="hidden" th:field="${metabolism.kcalToLose}" value="${metabolism.kcalToLose}">
                         <input type="hidden" th:field="${metabolism.kcalToHold}" value="${metabolism.kcalToHold}">
                         <input type="hidden" th:field="${metabolism.kcalToGain}" value="${metabolism.kcalToGain}">
-                        <button type="submit" class="btn btn-block btn-login">Przypisz dane do konta</button>
+                        <button th:if="${param.direct} == null" type="submit" class="btn btn-block btn-login">
+                            Przypisz dane do konta
+                        </button>
                     </form>
 
                 </div>

@@ -14,53 +14,53 @@
 <div class="header nopadding">
     <div class="headerNavbar centered" id="mainHeader">
         <a href="/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
             </div>
         </a>
         <a href="/products/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
             </div>
         </a>
         <a href="/meals/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-list-alt"></span> &nbsp; Przepisy
             </div>
         </a>
         <a href="/diets/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-calendar"></span> &nbsp; Diety
             </div>
         </a>
         <a href="/metabolism/">
-            <div class="headerBtn">
+            <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
             </div>
         </a>
-        <div class="headerBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="sidebarBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
             <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
         </div>
         <a href="/login">
-            <div class="headerBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
+            <div class="sidebarBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
                 <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
             </div>
         </a>
     </div>
     <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
         </div>
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-calendar"></span> &nbsp; Twoja dieta
         </div>
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
         </div>
-        <div class="headerBtn">
+        <div class="sidebarBtn">
             <span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj
         </div>
-        <div class="headerBtn" onclick="hideExtras()">
+        <div class="sidebarBtn" onclick="hideExtras()">
             <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
         </div>
     </div>

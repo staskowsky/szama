@@ -32,6 +32,16 @@ public class MetabolismController {
         return "metabolism/index";
     }
 
+    @GetMapping("/result")
+    public String displayResult(Model model, Principal principal) {
+        User user = userRepository.findByUsername(principal.getName());
+        if(user.getMetabolism()==null) {
+            return "redirect:/metabolism/";
+        }
+        model.addAttribute("metabolism", user.getMetabolism());
+        return "metabolism/result";
+    }
+
     @PostMapping("/result")
     public String result(Model model, @Valid Metabolism metabolism, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
