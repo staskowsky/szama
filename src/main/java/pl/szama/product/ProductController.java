@@ -53,6 +53,9 @@ public class ProductController {
         if(bindingResult.hasErrors()) {
             return "products/create";
         }
+        if( productRepository.findByName(product.getName()) != null ) {
+            return "redirect:/products?alreadyExists";
+        }
         product.setUser(userRepository.findByUsername(principal.getName()));
         productRepository.save(product);
         return "redirect:/products?addingSuccessful";

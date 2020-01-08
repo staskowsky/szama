@@ -9,5 +9,4 @@ import java.util.Optional;
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Long> {
     Optional<Meal> findByName(String name);
-    List<Meal> findAllById(Long id);
 }

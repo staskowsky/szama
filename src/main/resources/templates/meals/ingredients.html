@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Dodawanie przepisu</title>
@@ -8,16 +8,48 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div class="header nopadding">
-    <div class="headerNavbar centered" id="mainHeader">
+<div class="row nopadding">
+    <div class="col-2 nopadding sideBar">
         <a href="/">
+            <img src="/img/szama.png" class="card-img-top" style=" width: 300px;">
+        </a>
+        <div th:if="${#authorization.expression('!isAuthenticated()')}">
+            <a href="/login">
+                <div class="sidebarBtn">
+                    <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+                </div>
+            </a>
+
+            <a href="/register">
+                <div class="sidebarBtn">
+                    <span class="glyphicon glyphicon-user"></span> &nbsp; Rejestracja
+                </div>
+            </a>
+        </div>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="row nopadding welcomeText">
+            <span class="glyphicon glyphicon-user"></span>
+            <p sec:authentication="principal.username"></p>
+            <br><br>
+        </div>
+
+        <a href="/metabolism/result/?direct" th:if="${#authorization.expression('isAuthenticated()')}">
             <div class="sidebarBtn">
-                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+                <span class="glyphicon glyphicon-list"></span> &nbsp; Twoje dane
             </div>
         </a>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="sidebarBtn">
+            <form action="/logout" method="post">
+                <button type="submit" class="btn-link" style="text-decoration: none; color: white; width: 100%; height: 100%;">
+                    <span class="glyphicon glyphicon-off"></span> &nbsp;Wyloguj
+                </button>
+            </form>
+        </div>
+        <br><br>
         <a href="/products/">
             <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
@@ -38,39 +70,9 @@
                 <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
             </div>
         </a>
-        <div class="sidebarBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
-        </div>
-        <a href="/login">
-            <div class="sidebarBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
-                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
-            </div>
-        </a>
     </div>
-    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="sidebarBtn">
-            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
-        </div>
-        <div class="sidebarBtn">
-            <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
-        </div>
-        <a href="/settings">
-            <div class="sidebarBtn">
-                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
-            </div>
-        </a>
-        <div class="sidebarBtn" style="visibility: hidden;">
-            <form action="/logout" method="post">
-                <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
-            </form>
-        </div>
-
-        <div class="sidebarBtn" onclick="hideExtras()">
-            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
-        </div>
-    </div>
-</div>
-
+    <div class="col-10 nopadding">
+        <div class="header nopadding"></div>
 <div class="container nopadding">
     <div class="row">
         <div class="col-lg-1"></div>
@@ -146,6 +148,8 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
     </div>
 </div>
 </body>

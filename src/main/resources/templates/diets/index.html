@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:span="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:span="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Szama - Twoja dieta</title>
@@ -8,16 +9,47 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div class="header nopadding">
-    <div class="headerNavbar centered" id="mainHeader">
+<div class="row nopadding">
+    <div class="col-2 nopadding sideBar">
         <a href="/">
+            <img src="/img/szama.png" class="card-img-top" style=" width: 300px;">
+        </a>
+        <div th:if="${#authorization.expression('!isAuthenticated()')}">
+            <a href="/login">
+                <div class="sidebarBtn">
+                    <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
+                </div>
+            </a>
+
+            <a href="/register">
+                <div class="sidebarBtn">
+                    <span class="glyphicon glyphicon-user"></span> &nbsp; Rejestracja
+                </div>
+            </a>
+        </div>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="row nopadding welcomeText">
+            <span class="glyphicon glyphicon-user"></span>
+            <p sec:authentication="principal.username"></p>
+            <br><br>
+        </div>
+        <a href="/metabolism/result/?direct" th:if="${#authorization.expression('isAuthenticated()')}">
             <div class="sidebarBtn">
-                <span class="glyphicon glyphicon-home"></span> &nbsp; Strona Główna
+                <span class="glyphicon glyphicon-list"></span> &nbsp; Twoje dane
             </div>
         </a>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="sidebarBtn">
+            <form action="/logout" method="post">
+                <button type="submit" class="btn-link" style="text-decoration: none; color: white; width: 100%; height: 100%;">
+                    <span class="glyphicon glyphicon-off"></span> &nbsp;Wyloguj
+                </button>
+            </form>
+        </div>
+        <br><br>
         <a href="/products/">
             <div class="sidebarBtn">
                 <span class="glyphicon glyphicon-apple"></span> &nbsp; Produkty
@@ -38,53 +70,16 @@
                 <span class="glyphicon glyphicon-scale"></span> &nbsp; Kalkulator BMI
             </div>
         </a>
-        <div class="sidebarBtn" onclick="hideMain()" th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="glyphicon glyphicon-user"></span> &nbsp; Konto
-        </div>
-        <a href="/login">
-            <div class="sidebarBtn" th:if="${#authorization.expression('!isAuthenticated()')}">
-                <span class="glyphicon glyphicon-user"></span> &nbsp; Logowanie
-            </div>
-        </a>
     </div>
-    <div class="headerNavbar centered" id="authHeader" th:if="${#authorization.expression('isAuthenticated()')}">
-        <div class="sidebarBtn">
-            <span class="glyphicon glyphicon-heart"></span> &nbsp; Ulubione przepisy
-        </div>
-        <div class="sidebarBtn">
-            <span class="glyphicon glyphicon-user"></span> &nbsp; Twoje dane
-        </div>
-        <a href="/settings">
-            <div class="sidebarBtn">
-                <span class="glyphicon glyphicon-wrench"></span> &nbsp; Ustawienia
-            </div>
-        </a>
-        <div class="sidebarBtn" style="visibility: hidden;">
-            <form action="/logout" method="post">
-                <button type="submit" class="logoutBtn" style="visibility: visible;"><span class="glyphicon glyphicon-off"></span> &nbsp; Wyloguj</button>
-            </form>
-        </div>
-
-        <div class="sidebarBtn" onclick="hideExtras()">
-            <span class="glyphicon glyphicon-remove" style="color: red;"></span> &nbsp; Cofnij
-        </div>
-    </div>
-</div>
+    <div class="col-10 nopadding">
+        <div class="header nopadding"></div>
 
 <div class="container nopadding">
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-12 col-lg-10 content row">
-            <div class="alert alert-danger border-danger w-50 offset-3 centered" th:if="${param.fatal}">
-                Coś poszło nie tak. Spróbuj ponownie. <br>
-                Jeśli problem będzie się powtarzał skontaktuj się z administratorem.
-            </div>
 
-            <h1 class="w-100" style="margin-bottom: -60px;">Dieta</h1>
-
-            <form th:action="@{/diets/create}" method="get">
-                <button type="submit" class="btn btn-primary btn-block generateDietBtn" >Skomponuj nową dietę</button>
-            </form>
+            <h1 class="w-100">Dieta</h1>
 
             <div th:unless="${user.diet==null}" class="col-12 prodTable" style="height: 392px;">
                 <div class="row prodTableTop borderbtm font-weight-bold">
@@ -121,7 +116,7 @@
                         <span th:if="${user.diet.days[0].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '0/1'" method="post">
@@ -133,7 +128,7 @@
                         <span th:if="${user.diet.days[0].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '0/2'" method="post">
@@ -145,7 +140,7 @@
                         <span th:if="${user.diet.days[0].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '0/3'" method="post">
@@ -157,7 +152,7 @@
                         <span th:if="${user.diet.days[0].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[0].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[0].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[0].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[0].caloricity,0,4)} + 'kcal'"></p>
@@ -177,7 +172,7 @@
                         <span th:if="${user.diet.days[1].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[1].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '1/1'" method="post">
@@ -189,7 +184,7 @@
                         <span th:if="${user.diet.days[1].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[1].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '1/2'" method="post">
@@ -201,7 +196,7 @@
                         <span th:if="${user.diet.days[1].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[1].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '1/3'" method="post">
@@ -213,7 +208,7 @@
                         <span th:if="${user.diet.days[1].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[1].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[1].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[1].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[1].caloricity,0,4)} + 'kcal'"></p>
@@ -233,7 +228,7 @@
                         <span th:if="${user.diet.days[2].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[2].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '2/1'" method="post">
@@ -245,7 +240,7 @@
                         <span th:if="${user.diet.days[2].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[2].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '2/2'" method="post">
@@ -257,7 +252,7 @@
                         <span th:if="${user.diet.days[2].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[2].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '2/3'" method="post">
@@ -269,7 +264,7 @@
                         <span th:if="${user.diet.days[2].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[2].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[2].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[2].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[2].caloricity,0,4)} + 'kcal'"></p>
@@ -289,7 +284,7 @@
                         <span th:if="${user.diet.days[3].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[3].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '3/1'" method="post">
@@ -301,7 +296,7 @@
                         <span th:if="${user.diet.days[3].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[3].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '3/2'" method="post">
@@ -313,7 +308,7 @@
                         <span th:if="${user.diet.days[3].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[3].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '3/3'" method="post">
@@ -325,7 +320,7 @@
                         <span th:if="${user.diet.days[3].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[3].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[3].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[3].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[3].caloricity,0,4)} + 'kcal'"></p>
@@ -345,7 +340,7 @@
                         <span th:if="${user.diet.days[4].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[4].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '4/1'" method="post">
@@ -357,7 +352,7 @@
                         <span th:if="${user.diet.days[4].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[4].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '4/2'" method="post">
@@ -369,7 +364,7 @@
                         <span th:if="${user.diet.days[4].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[4].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '4/3'" method="post">
@@ -381,7 +376,7 @@
                         <span th:if="${user.diet.days[4].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[4].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[4].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[4].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[4].caloricity,0,4)} + 'kcal'"></p>
@@ -401,7 +396,7 @@
                         <span th:if="${user.diet.days[5].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[5].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '5/1'" method="post">
@@ -413,7 +408,7 @@
                         <span th:if="${user.diet.days[5].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[5].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '5/2'" method="post">
@@ -425,7 +420,7 @@
                         <span th:if="${user.diet.days[5].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[5].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '5/3'" method="post">
@@ -437,7 +432,7 @@
                         <span th:if="${user.diet.days[5].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[5].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[5].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[5].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[5].caloricity,0,4)} + 'kcal'"></p>
@@ -457,7 +452,7 @@
                         <span th:if="${user.diet.days[6].mealPointers[0].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[6].mealPointers[0].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[0].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[0].meal.name,32)}" class="textLink"></a>
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[0].meal.name,24)}" class="textLink"></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '6/1'" method="post">
@@ -469,7 +464,7 @@
                         <span th:if="${user.diet.days[6].mealPointers[1].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[6].mealPointers[1].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[1].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[1].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[1].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '6/2'" method="post">
@@ -481,7 +476,7 @@
                         <span th:if="${user.diet.days[6].mealPointers[2].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[6].mealPointers[2].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[2].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[2].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[2].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 row nopadding padding10">
                         <form th:action="@{/diets/swap/} + '0/3'" method="post">
@@ -493,14 +488,33 @@
                         <span th:if="${user.diet.days[6].mealPointers[3].quantity}==2" class="font-weight-bold">2x&nbsp;</span>
                         <span th:if="${user.diet.days[6].mealPointers[3].quantity}==0.5" class="font-weight-bold">1/2&nbsp;</span>
                         <a th:href="@{/meals/} + ${user.diet.days[6].mealPointers[3].meal.id}"
-                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[3].meal.name,32)}" class="textLink">></a>
+                           th:text="${#strings.abbreviate(user.diet.days[6].mealPointers[3].meal.name,24)}" class="textLink">></a>
                     </div>
                     <div class="col-2 padding10">
                         <p th:text="${#strings.substring(user.diet.days[6].caloricity,0,4)} + 'kcal'"></p>
                     </div>
                 </div>
             </div>
+
+            <div class="w-100">
+                <div class="alert alert-danger border-danger w-50 offset-3 centered" th:if="${param.fatal}">
+                    Coś poszło nie tak. Spróbuj ponownie. <br>
+                    Jeśli problem będzie się powtarzał skontaktuj się z administratorem.
+                </div>
+                <div class="alert alert-success border-success w-50 offset-3 centered" th:if="${param.generatedSuccessfully}">
+                    Dieta wygenerowana pomyślnie.
+                </div>
+                <div class="alert alert-secondary border-secondary w-50 offset-3 centered" th:if="${param.swappedSuccessfully}">
+                    Wymieniono posiłek.
+                </div>
+
+                <form th:action="@{/diets/create}" method="get">
+                    <button type="submit" class="btn btn-primary btn-block generateDietBtn">Skomponuj nową dietę</button>
+                </form>
+            </div>
         </div>
+    </div>
+</div>
     </div>
 </div>
 </body>

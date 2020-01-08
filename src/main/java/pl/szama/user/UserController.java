@@ -39,16 +39,15 @@ public class UserController {
         if(bindingResult.hasErrors()) {
             return "users/register";
         }
+        if(userRepository.findByUsername(user.getUsername()) != null) {
+            return "redirect:/register?usernameExists";
+        }
+        if(userRepository.findByEmail(user.getEmail()) != null) {
+            return "redirect:/register?emailExists";
+        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         userRepository.save(user);
         return "redirect:/login?registerSuccessful";
-    }
-
-    @GetMapping("/settings")
-    public String showSettings(Model model, Principal principal) {
-        User user = userRepository.findByUsername(principal.getName());
-        model.addAttribute("user", user);
-        return "users/settings";
     }
 }

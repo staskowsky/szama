@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.szama.diet.MealPointerRepository;
 import pl.szama.product.Product;
 import pl.szama.product.ProductRepository;
 
@@ -21,13 +22,15 @@ public class MealController {
     private final MealRepository mealRepository;
     private final IngredientRepository ingredientRepository;
     private final ProductRepository productRepository;
+    private final MealPointerRepository mealPointerRepository;
 
     @Autowired
     public MealController(MealRepository mealRepository, IngredientRepository ingredientRepository,
-                          ProductRepository productRepository) {
+                          ProductRepository productRepository, MealPointerRepository mealPointerRepository) {
         this.mealRepository = mealRepository;
         this.ingredientRepository = ingredientRepository;
         this.productRepository = productRepository;
+        this.mealPointerRepository = mealPointerRepository;
     }
 
     @GetMapping("")
@@ -49,6 +52,9 @@ public class MealController {
     public String storeMeal(Model model, Ingredient ingredient, @Valid Meal meal, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "meals/create";
+        }
+        if (mealRepository.findByName(meal.getName()) != null) {
+            return "redirect:/meals/create/name?mealExists";
         }
         mealRepository.save(meal);
         List<Product> products = productRepository.findAll();
@@ -189,6 +195,9 @@ public class MealController {
     @PostMapping("/delete/{id}")
     public String deleteMeal(@PathVariable("id") Long id) {
         Meal meal = mealRepository.getOne(id);
+        if(mealPointerRepository.findAllByMeal(meal) != null) {
+            return "redirect:/meals?deleteUnsuccessful";
+        }
         List<Ingredient> ingredients = ingredientRepository.findAllByMeal(meal);
         for(int i = 0; i< ingredients.size(); i++) {
             ingredientRepository.delete(ingredients.get(i));
