@@ -55,6 +55,9 @@ public class DietController {
     @PostMapping("/generate/auto/lose")
     public String generateRandomLose(Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
+        if(user.getMetabolism()==null) {
+            return "redirect:/metabolism/";
+        }
         int expectedKcal = user.getMetabolism().getKcalToLose();
         generateRandomDiet(user, expectedKcal);
         return "redirect:/diets/?generatedSuccessfully";
@@ -63,6 +66,9 @@ public class DietController {
     @PostMapping("/generate/auto/hold")
     public String generateRandomHold(Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
+        if(user.getMetabolism()==null) {
+            return "redirect:/metabolism/";
+        }
         int expectedKcal = user.getMetabolism().getKcalToHold();
         generateRandomDiet(user, expectedKcal);
         return "redirect:/diets/?generatedSuccessfully";
@@ -71,6 +77,9 @@ public class DietController {
     @PostMapping("/generate/auto/gain")
     public String generateRandomGain(Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
+        if(user.getMetabolism()==null) {
+            return "redirect:/metabolism/";
+        }
         int expectedKcal = user.getMetabolism().getKcalToGain();
         generateRandomDiet(user, expectedKcal);
         return "redirect:/diets/?generatedSuccessfully";
